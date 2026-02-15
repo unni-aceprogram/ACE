@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
 <meta charset="UTF-8" />
-<title>ACE Practice Set 1</title>
+<title>IATA DOMESTIC | Quiz 1</title>
 <style>
 body {
 font-family: 'Inter', Arial, sans-serif;
@@ -178,12 +178,12 @@ margin-top: 10px;
 </head>
 <body>
 <div class="container">
-<h1>ACE Practice Set 1</h1>
+<h1>IATA DOMESTIC | Quiz 1</h1>
 <div id="sound-toggle" onclick="toggleSound()">
 <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
 </div>
 <div id="progress-container"><div id="progress-bar"></div></div>
-<div id="question-counter">Questions: 10</div>
+<div id="question-counter">Questions: 25</div>
 <div id="alert">⏰ Hurry! Time is almost up!</div>
 <div id="quiz-container"></div>
 <div id="score-container"></div>
@@ -196,119 +196,58 @@ margin-top: 10px;
 <script>
     const quizData = [
 
+{"question":"What is the IATA code for Delhi?","options":["BOM","BLR","DEL","HYD"],"correct":2,"explanation":"DEL is the IATA code for Delhi."},
 
-  {
-    "question": "How many hours before departure should a passenger notify IndiGo of special disability assistance needs (e.g., wheelchair)?",
-    "options": [
-      "At least 24 hours",
-      "At least 48 hours",
-      "At least 72 hours",
-      "At least 12 hours"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo requires passengers to notify them of special assistance needs at least 48 hours prior to scheduled departure for necessary arrangements."
-  },
-  {
-    "question": "Which of the following is NOT a service IndiGo provides under disability assistance?",
-    "options": [
-      "Booking wheelchair assistance",
-      "On-board meal preparation by cabin crew",
-      "Assistance to restrooms",
-      "Companion ticket at discounted fare"
-    ],
-    "correct": 3,
-    "explanation": "IndiGo provides wheelchair assistance and some inflight help, but does not offer a discounted companion ticket specifically as part of disability assistance. Assistance to restrooms in flight is limited and not guaranteed."
-  },
-  {
-    "question": "Passengers who use their own manual wheelchair may use it up to what point at the airport?",
-    "options": [
-      "Up to the boarding gate",
-      "Up to the aircraft door",
-      "Only at the check-in counter",
-      "Only in the arrivals hall"
-    ],
-    "correct": 1,
-    "explanation": "Passengers using their own manual wheelchair may use it up to the aircraft door before it is stored in the hold(assuming cisf approved at SHA)."
-  },
-  {
-    "question": "Passengers with which condition may be required to travel with a safety assistant?",
-    "options": [
-      "Customers who have a severe learning or cognitive challenge",
-      "Customers who can independently fasten a seat belt",
-      "Customers with minor temporary injury",
-      "Customers carrying only hand luggage"
-    ],
-    "correct": 0,
-    "explanation": "IndiGo may require passengers with severe cognitive challenges or other conditions impacting safety to travel with a safety assistant."
-  },
-  {
-    "question": "IndiGo will not allocate a seat in the emergency exit rows to passengers who are:",
-    "options": [
-      "Travelling with a companion",
-      "Hearing or visually impaired",
-      "Above 60 years old",
-      "Booked on an international flight"
-    ],
-    "correct": 1,
-    "explanation": "Passengers with limited mobility or sensory impairments are not allocated emergency exit row seats due to safety requirements."
-  },
-  {
-    "question": "What is the recommended time to reach the airport for passengers requiring disability assistance?",
-    "options": [
-      "One hour before departure",
-      "Two hours before departure",
-      "Three hours before departure",
-      "Just on time for boarding"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo requests passengers needing disability assistance to arrive at least two hours before the scheduled departure time."
-  },
-  {
-    "question": "What is considered part of ‘assistive devices’ that IndiGo crew can help with onboard?",
-    "options": [
-      "Crutches and cane",
-      "Portable oxygen concentrators",
-      "Both A and B",
-      "Luggage over baggage limit"
-    ],
-    "correct": 2,
-    "explanation": "Assistive devices include items like crutches, cane and portable oxygen concentrators, which the crew may help with during travel."
-  },
-  {
-    "question": "Wheelchair service at the airport includes:",
-    "options": [
-      "Transport from check-in to boarding gate and arrivals hall",
-      "Meal service in flight",
-      "Free extra baggage",
-      "Priority boarding without notification"
-    ],
-    "correct": 0,
-    "explanation": "IndiGo provides wheelchair service to assist passengers from check-in to gate and arrivals hall when requested in advance."
-  },
-  {
-    "question": "Under IndiGo’s disability assistance policy, checked-in wheelchairs are returned at:",
-    "options": [
-      "Any carousel",
-      "As close to the aircraft door as possible",
-      "Cabin baggage area",
-      "No retrieval service"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo makes an effort to return checked-in wheelchairs as close to the aircraft door as possible at the destination."
-  },
-  {
-    "question": "Which of the following passengers may be prioritized for special and disability assistance?",
-    "options": [
-      "Passengers carrying only sports equipment",
-      "Customers with sensory impairments",
-      "Passengers with confirmed online web check-in",
-      "Passengers in business class"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo offers priority assistance to customers with sensory impairments as part of its disability support services."
-  }
+{"question":"What is the IATA code for Mumbai?","options":["MAA","CCU","BOM","PNQ"],"correct":2,"explanation":"BOM is the IATA code for Mumbai."},
 
-    ];
+{"question":"What is the IATA code for Bengaluru?","options":["HYD","AMD","GOI","BLR"],"correct":3,"explanation":"BLR is the IATA code for Bengaluru."},
+
+{"question":"What is the IATA code for Chennai?","options":["TRV","MAA","COK","IXC"],"correct":1,"explanation":"MAA is the IATA code for Chennai."},
+
+{"question":"What is the IATA code for Kolkata?","options":["PAT","CCU","LKO","JAI"],"correct":1,"explanation":"CCU is the IATA code for Kolkata."},
+
+{"question":"What is the IATA code for Hyderabad?","options":["HYD","VGA","BLR","IXR"],"correct":0,"explanation":"HYD is the IATA code for Hyderabad."},
+
+{"question":"What is the IATA code for Ahmedabad?","options":["ATQ","AMD","IDR","NAG"],"correct":1,"explanation":"AMD is the IATA code for Ahmedabad."},
+
+{"question":"What is the IATA code for Goa?","options":["COK","GOI","TRV","IXE"],"correct":1,"explanation":"GOI is the IATA code for Goa."},
+
+{"question":"What is the IATA code for Kochi?","options":["CCJ","MAA","COK","TRZ"],"correct":2,"explanation":"COK is the IATA code for Kochi."},
+
+{"question":"What is the IATA code for Thiruvananthapuram?","options":["TIR","TRV","IXM","CJB"],"correct":1,"explanation":"TRV is the IATA code for Thiruvananthapuram."},
+
+{"question":"What is the IATA code for Jaipur?","options":["JDH","UDR","BEK","JAI"],"correct":3,"explanation":"JAI is the IATA code for Jaipur."},
+
+{"question":"What is the IATA code for Lucknow?","options":["LKO","KNU","IXD","VNS"],"correct":0,"explanation":"LKO is the IATA code for Lucknow."},
+
+{"question":"What is the IATA code for Chandigarh?","options":["IXC","DED","IXJ","SXR"],"correct":0,"explanation":"IXC is the IATA code for Chandigarh."},
+
+{"question":"What is the IATA code for Ranchi?","options":["RPR","PAT","IXR","GAU"],"correct":2,"explanation":"IXR is the IATA code for Ranchi."},
+
+{"question":"What is the IATA code for Patna?","options":["IXD","PAT","GWL","BHO"],"correct":1,"explanation":"PAT is the IATA code for Patna."},
+
+{"question":"What is the IATA code for Bhubaneswar?","options":["RPR","VTZ","BBI","IXA"],"correct":2,"explanation":"BBI is the IATA code for Bhubaneswar."},
+
+{"question":"What is the IATA code for Guwahati?","options":["GAU","IMF","GOX","AJL"],"correct":0,"explanation":"GAU is the IATA code for Guwahati."},
+
+{"question":"What is the IATA code for Bagdogra?","options":["IXB","IXR","BDQ","IXD"],"correct":0,"explanation":"IXB is the IATA code for Bagdogra."},
+
+{"question":"What is the IATA code for Mangalore?","options":["COK","IXE","GOI","BLR"],"correct":1,"explanation":"IXE is the IATA code for Mangalore."},
+
+{"question":"What is the IATA code for Pune?","options":["BOM","NAG","PNQ","IDR"],"correct":2,"explanation":"PNQ is the IATA code for Pune."},
+
+{"question":"What is the IATA code for Nagpur?","options":["NPR","NAG","IDR","RPR"],"correct":1,"explanation":"NAG is the IATA code for Nagpur."},
+
+{"question":"What is the IATA code for Indore?","options":["BHO","GWL","IDR","JLR"],"correct":2,"explanation":"IDR is the IATA code for Indore."},
+
+{"question":"What is the IATA code for Bhopal?","options":["BHQ","NAG","RPR","BHO"],"correct":3,"explanation":"BHO is the IATA code for Bhopal."},
+
+{"question":"What is the IATA code for Varanasi?","options":["IXD","VNS","LKO","VRI"],"correct":1,"explanation":"VNS is the IATA code for Varanasi."},
+
+{"question":"What is the IATA code for Jammu?","options":["SXR","ATQ","IXC","IXJ"],"correct":3,"explanation":"IXJ is the IATA code for Jammu."}
+
+];
+
     let currentQuestion = 0;
 let score = 0;
 let timer;
