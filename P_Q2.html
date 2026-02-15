@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
 <meta charset="UTF-8" />
-<title>ACE Practice Set 2</title>
+<title>IATA DOMESTIC | Quiz 2</title>
 <style>
 body {
 font-family: 'Inter', Arial, sans-serif;
@@ -178,12 +178,12 @@ margin-top: 10px;
 </head>
 <body>
 <div class="container">
-<h1>ACE Practice Set 2</h1>
+<h1>IATA DOMESTIC | Quiz 2</h1>
 <div id="sound-toggle" onclick="toggleSound()">
 <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
 </div>
 <div id="progress-container"><div id="progress-bar"></div></div>
-<div id="question-counter">Questions: 10</div>
+<div id="question-counter">Questions: 25</div>
 <div id="alert">⏰ Hurry! Time is almost up!</div>
 <div id="quiz-container"></div>
 <div id="score-container"></div>
@@ -194,124 +194,36 @@ margin-top: 10px;
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-
 const quizData = [
-
-  {
-    "question": "Which document may IndiGo request from passengers with certain medical conditions before accepting them for travel?",
-    "options": [
-      "Government disability certificate",
-      "Medical Information Form (MEDIF)",
-      "Airport entry pass",
-      "Travel insurance policy"
-    ],
-    "correct": 1,
-    "explanation": "For certain medical conditions, IndiGo may require a completed Medical Information Form (MEDIF) to assess fitness to fly."
-  },
-  {
-    "question": "Which of the following passengers is NOT permitted to travel unaccompanied under IndiGo’s disability guidelines?",
-    "options": [
-      "A passenger who cannot communicate safety instructions",
-      "A passenger using a walking stick",
-      "A passenger with minor hearing impairment",
-      "A passenger wearing prescription glasses"
-    ],
-    "correct": 0,
-    "explanation": "Passengers who are unable to understand or respond to safety instructions may be required to travel with a safety assistant."
-  },
-  {
-    "question": "What support does IndiGo provide to visually impaired passengers at the airport?",
-    "options": [
-      "Dedicated personal attendant throughout the journey",
-      "Guidance assistance through terminal areas",
-      "Special discounted airfare",
-      "Reserved front-row seating"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo provides guidance assistance to help visually impaired passengers navigate through terminal areas when requested."
-  },
-  {
-    "question": "Which of the following best describes IndiGo’s policy on onboard medical assistance?",
-    "options": [
-      "Cabin crew provide full medical treatment",
-      "Cabin crew provide basic first aid only",
-      "Doctors are always available on every flight",
-      "Medical emergencies are not supported onboard"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo cabin crew are trained to provide basic first aid but are not medical professionals and cannot offer advanced medical treatment."
-  },
-  {
-    "question": "How does IndiGo handle passengers travelling with service or assistive animals?",
-    "options": [
-      "Animals are always allowed in the cabin without restrictions",
-      "Animals are permitted subject to regulatory approvals and airline policy",
-      "Animals are never allowed on any IndiGo flight",
-      "Animals must travel only as checked baggage"
-    ],
-    "correct": 1,
-    "explanation": "Carriage of service or assistive animals is subject to regulatory approvals and IndiGo’s specific policy conditions."
-  },
-  {
-    "question": "Which onboard facility is NOT available on IndiGo aircraft for passengers with reduced mobility?",
-    "options": [
-      "Movable armrest seats on selected rows",
-      "Wheelchair accessible lavatory",
-      "Aisle wheelchair for in-cabin movement",
-      "Crew assistance to reach assigned seat"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo aircraft are not equipped with wheelchair-accessible lavatories; accessibility support is limited onboard."
-  },
-  {
-    "question": "Passengers requiring stretcher support can be accepted for travel by IndiGo only if:",
-    "options": [
-      "They purchase any available seat",
-      "They submit a MEDIF and meet airline medical criteria",
-      "They arrive early at the airport",
-      "They carry a government disability ID"
-    ],
-    "correct": 1,
-    "explanation": "Passengers requiring stretcher support must submit a MEDIF and meet IndiGo’s medical and operational acceptance criteria."
-  },
-  {
-    "question": "Which of the following is a responsibility of the passenger when requesting disability assistance?",
-    "options": [
-      "Ensuring timely advance notification to the airline",
-      "Arranging airport security clearance",
-      "Providing training to cabin crew",
-      "Managing aircraft seating policy"
-    ],
-    "correct": 0,
-    "explanation": "Passengers are responsible for informing the airline in advance so that appropriate assistance arrangements can be made."
-  },
-  {
-    "question": "IndiGo staff can assist passengers with reduced mobility in which of the following tasks?",
-    "options": [
-      "Eating meals onboard",
-      "Personal hygiene tasks",
-      "Moving to and from the aircraft seat",
-      "Administering medication"
-    ],
-    "correct": 2,
-    "explanation": "IndiGo staff can assist passengers with moving to and from their seat, but cannot provide personal care such as feeding or medication."
-  },
-  {
-    "question": "Which of the following best reflects IndiGo’s approach to dignity and respect for passengers with disabilities?",
-    "options": [
-      "Assistance is optional and not prioritized",
-      "Support is provided with dignity, respect, and sensitivity",
-      "Only mandatory legal requirements are followed",
-      "Assistance is limited to check-in counters"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo commits to providing assistance to passengers with disabilities in a manner that ensures dignity, respect, and sensitivity."
-  }
-
-
+{"question":"Which city uses the IATA code ATQ?","options":["Agra","Amritsar","Aurangabad","Aizawl"],"correct":1,"explanation":"ATQ is the IATA code for Amritsar."},
+{"question":"Which city uses the IATA code SXR?","options":["Surat","Solapur","Srinagar","Shillong"],"correct":2,"explanation":"SXR is the IATA code for Srinagar."},
+{"question":"Which city uses the IATA code IXZ?","options":["Patna","Panaji","Pune","Port Blair"],"correct":3,"explanation":"IXZ is the IATA code for Port Blair."},
+{"question":"Which city uses the IATA code IXA?","options":["Agra","Aizawl","Agartala","Ajmer"],"correct":2,"explanation":"IXA is the IATA code for Agartala."},
+{"question":"Which city uses the IATA code AJL?","options":["Agartala","Aizawl","Aurangabad","Amritsar"],"correct":1,"explanation":"AJL is the IATA code for Aizawl."},
+{"question":"Which city uses the IATA code DIB?","options":["Delhi","Dibrugarh","Dehradun","Dimapur"],"correct":1,"explanation":"DIB is the IATA code for Dibrugarh."},
+{"question":"Which city uses the IATA code DMU?","options":["Dibrugarh","Mysore","Dimapur","Madurai"],"correct":2,"explanation":"DMU is the IATA code for Dimapur."},
+{"question":"Which city uses the IATA code IMF?","options":["Imphal","Idukki","Indore","Itanagar"],"correct":0,"explanation":"IMF is the IATA code for Imphal."},
+{"question":"Which city uses the IATA code IXM?","options":["Mangalore","Madurai","Mumbai","Mysore"],"correct":1,"explanation":"IXM is the IATA code for Madurai."},
+{"question":"Which city uses the IATA code TRZ?","options":["Tumkur","Tiruchirappalli","Trivandrum","Tirupati"],"correct":1,"explanation":"TRZ is the IATA code for Tiruchirappalli."},
+{"question":"Which city uses the IATA code CJB?","options":["Calicut","Chennai","Cochin","Coimbatore"],"correct":3,"explanation":"CJB is the IATA code for Coimbatore."},
+{"question":"Which city uses the IATA code CCJ?","options":["Cochin","Chennai","Calicut","Coimbatore"],"correct":2,"explanation":"CCJ is the IATA code for Calicut."},
+{"question":"Which city uses the IATA code TIR?","options":["Tirupati","Trichy","Tezpur","Tumkur"],"correct":0,"explanation":"TIR is the IATA code for Tirupati."},
+{"question":"Which city uses the IATA code VGA?","options":["Vellore","Varanasi","Vadodara","Vijayawada"],"correct":3,"explanation":"VGA is the IATA code for Vijayawada."},
+{"question":"Which city uses the IATA code VTZ?","options":["Vadodara","Vapi","Visakhapatnam","Vijayawada"],"correct":2,"explanation":"VTZ is the IATA code for Visakhapatnam."},
+{"question":"Which city uses the IATA code RPR?","options":["Raipur","Ranchi","Rajkot","Rameswaram"],"correct":0,"explanation":"RPR is the IATA code for Raipur."},
+{"question":"Which city uses the IATA code IXD?","options":["Panaji","Prayagraj","Pune","Patna"],"correct":1,"explanation":"IXD is the IATA code for Prayagraj."},
+{"question":"Which city uses the IATA code GWL?","options":["Goa","Gwalior","Gaya","Guwahati"],"correct":1,"explanation":"GWL is the IATA code for Gwalior."},
+{"question":"Which city uses the IATA code JLR?","options":["Jammu","Jabalpur","Jodhpur","Jaipur"],"correct":1,"explanation":"JLR is the IATA code for Jabalpur."},
+{"question":"Which city uses the IATA code JDH?","options":["Jamnagar","Jodhpur","Jaipur","Jalandhar"],"correct":1,"explanation":"JDH is the IATA code for Jodhpur."},
+{"question":"Which city uses the IATA code UDR?","options":["Ujjain","Ulhasnagar","Udaipur","Una"],"correct":2,"explanation":"UDR is the IATA code for Udaipur."},
+{"question":"Which city uses the IATA code BIK?","options":["Bhopal","Bikaner","Bangalore","Bhilai"],"correct":1,"explanation":"BIK is the IATA code for Bikaner."},
+{"question":"Which city uses the IATA code KNU?","options":["Kochi","Kolkata","Kullu","Kanpur"],"correct":3,"explanation":"KNU is the IATA code for Kanpur."},
+{"question":"Which city uses the IATA code DED?","options":["Delhi","Dimapur","Dehradun","Dibrugarh"],"correct":2,"explanation":"DED is the IATA code for Dehradun."},
+{"question":"Which city uses the IATA code IXU?","options":["Ahmedabad","Aizawl","Aurangabad","Agra"],"correct":2,"explanation":"IXU is the IATA code for Aurangabad."}
 ];
 
- let currentQuestion = 0;
+
+    let currentQuestion = 0;
 let score = 0;
 let timer;
 let timeLeft = 60;
