@@ -48,6 +48,8 @@
       transition: background 0.25s;
       cursor: pointer;
       outline: none;
+text-align: left;      
+  padding-left: 15px;    
     }
 
     .quiz-btn:hover {
@@ -132,17 +134,34 @@
 </head>
 <body>
   <div class="quiz-list-container">
-    <h1>Choose a Quiz</h1>
-    <button class="quiz-btn" onclick="showModal(1)">Disability Quiz 1</button>
-    <button class="quiz-btn" onclick="showModal(2)">Disability Quiz 2</button>
-    <button class="quiz-btn" onclick="showModal(3)">Disability Quiz 3</button>
-    <button class="quiz-btn" onclick="showModal(4)">Disability Quiz 4</button>
-    <button class="quiz-btn" onclick="showModal(5)">ACE EXAM 1 Quiz 5</button>
-    <button class="quiz-btn" onclick="showModal(6)">ACE EXAM 1 QUIZ 6</button>
-    <button class="quiz-btn" onclick="showModal(7)">ACE EXAM 1 QUIZ 7</button>
-    <button class="quiz-btn" onclick="showModal(8)">ACE EXAM 1 Quiz 8</button>
-    <button class="quiz-btn" onclick="showModal(9)">ACE EXAM 1 Quiz 9</button>
-    <button class="quiz-btn" onclick="showModal(10)">ACE EXAM 1 Quiz 10</button>
+    <h1>ACE </h1>
+    <h3>Choose a Quiz</h3>
+    <button class="quiz-btn" onclick="showModal(1)">1. IATA DOMESTIC | Quiz 1</button>
+    <button class="quiz-btn" onclick="showModal(2)">2. IATA DOMESTIC | Quiz 2</button>
+    <button class="quiz-btn" onclick="showModal(3)">3. IATA INTERNATIONAL| Quiz 3</button>
+    <button class="quiz-btn" onclick="showModal(4)">4. IATA FINAL | Quiz 4</button>
+
+    <button class="quiz-btn" onclick="showModal(5)">5. Disability | Quiz 1</button>
+    <button class="quiz-btn" onclick="showModal(6)">6. Disability | Quiz 2</button>
+    <button class="quiz-btn" onclick="showModal(7)">7. Disability | Quiz 3</button>
+    <button class="quiz-btn" onclick="showModal(8)">8. Disability | Quiz 4</button>
+
+    <button class="quiz-btn" onclick="showModal(9)">9. ACE EXAM 1   | QUIZ 1</button>
+    <button class="quiz-btn" onclick="showModal(10)">10. ACE EXAM 1 | QUIZ 2</button>
+    <button class="quiz-btn" onclick="showModal(11)">11. ACE EXAM 1 | Quiz 3</button>
+    <button class="quiz-btn" onclick="showModal(12)">12. ACE EXAM 1 | Quiz 4</button>
+
+    <button class="quiz-btn" onclick="showModal(13)">13. ACE EXAM 2 | Quiz 1</button>
+    <button class="quiz-btn" onclick="showModal(14)">14. ACE EXAM 2 | Quiz 2</button>
+    <button class="quiz-btn" onclick="showModal(15)">15. ACE EXAM 2 | Quiz 3</button>
+    <button class="quiz-btn" onclick="showModal(16)">16. ACE EXAM 2 | Quiz 4</button>
+
+    <button class="quiz-btn" onclick="showModal(17)">17. SYSTEM EXAM | Quiz 1</button>
+    <button class="quiz-btn" onclick="showModal(18)">18. SYSTEM EXAM | Quiz 2</button>
+
+    <button class="quiz-btn" onclick="showModal(19)">19. SITUATIONAL VIVA | Quiz 1</button>
+    <button class="quiz-btn" onclick="showModal(20)"> 20. SITUATIONAL VIVA | Quiz 2</button>
+ 
   </div>
 
   <!-- Modal -->
@@ -156,16 +175,26 @@
 
   <script>
     const quizCodes = {
-      1: "A1B2C3",
-      2: "D4E5F6",
-      3: "G7H8I9",
-      4: "J1K2L3",
-      5: "M4N5O6",
-      6: "P7Q8R9",
-      7: "S1T2U3",
-      8: "V4W5X6",
-      9: "Y7Z8A9",
-      10: "B1C2D3"
+      1: "Ind$12",
+      2: "Ind$12",
+      3: "Ind$12",
+      4: "Ind$12",
+      5: "Ind$12",
+      6: "Ind$12",
+      7: "Ind$12",
+      8: "Ind$12",
+      9: "Ind$12",
+      10: "Ind$12",
+        11: "Ind$12",
+      12: "Ind$12",
+      13: "Ind$12",
+      14: "Ind$12",
+      15: "Ind$12",
+      16: "Ind$12",
+      17: "Ind$12",
+      18: "Ind$12",
+      19: "Ind$12",
+      20: "Ind$12"
     };
 
     let currentQuiz = null;
@@ -180,16 +209,17 @@
       }, 100);
     }
 
-    function validateCode() {
-      const input = document.getElementById("quizCodeInput").value.trim().toUpperCase();
-      const correct = quizCodes[currentQuiz];
+   function validateCode() {
+  const input = document.getElementById("quizCodeInput").value.trim().toUpperCase();
+  const correct = quizCodes[currentQuiz].toUpperCase();
 
-      if (input === correct) {
-        window.location.href = `P_Q${currentQuiz}.html`;
-      } else {
-        alert("Incorrect code. Try again.");
-      }
-    }
+  if (input === correct) {
+    window.location.href = `P_Q${currentQuiz}.html`;
+  } else {
+    alert("Incorrect code. Try again.");
+  }
+}
+
 
     // Close modal when clicking outside
     window.addEventListener("click", function(e) {
