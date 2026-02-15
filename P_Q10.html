@@ -205,19 +205,79 @@ const quizData = [
 
 {"question":"Flight cancellation requires offering:","options":["Apology only","Refund or alternate flight","Seat upgrade","Coupon only"],"correct":1,"explanation":"Policy requires refund or re-accommodation."},
 
-{"question":"Power banks are allowed in:","options":["Checked baggage","Cabin baggage only","Cargo","Not allowed"],"correct":1,"explanation":"Power banks allowed only in cabin baggage."},
+{"question":"Power banks are allowed in:","options":["Checked baggage","Cabin baggage only","Cargo","Not allowed"],"correct":1,"explanation":"Power banks allowed only in cabin baggage and in hand inside aircraft."},
 
-{"question":"Single baggage piece above 32 kg is:","options":["Accepted","Accepted with approval","Not accepted","Allowed for VIP"],"correct":2,"explanation":"Single piece must not exceed 32 kg."},
 
-{"question":"Travel document validation prevents:","options":["Regulatory violation","Passenger comfort","Seat duplication","Upgrade loss"],"correct":0,"explanation":"Valid documents prevent regulatory violation."},
+{
+"question":"What services are included in the 6E Prime package?",
+"options":[
+"Seat selection only",
+"Extra baggage allowance only",
+"Seat + meal + Fast Forward service",
+"Lounge access and insurance"
+],
+"correct":2,
+"explanation":"6E Prime includes seat selection, a meal, and Fast Forward service for a smoother airport experience."
+},
+{
+"question":"What is a key benefit of the 6E Flex fare?",
+"options":[
+"Flexibility in rebooking with no change fees",
+"Free lounge access",
+"Complimentary extra baggage",
+"Guaranteed upgrade to XL seat"
+],
+"correct":0,
+"explanation":"6E Flex offers flexibility in rebooking with no change fees applicable."
+},
 
-{"question":"Passenger manifest must reflect:","options":["Estimated count","Accurate boarded count","Ticket sales","Meal count"],"correct":1,"explanation":"Manifest must reflect actual boarded passengers."},
 
-{"question":"Missed flight handling requires:","options":["Blame passenger","Explain policy and rebooking options","Ignore","Automatic refund"],"correct":1,"explanation":"Staff must explain rebooking options."},
 
-{"question":"Professional service avoids:","options":["Empathy","Arguments","Clarity","Respect"],"correct":1,"explanation":"Arguments must be avoided."},
+{
+"question":"Which SSR code is used for an inadmissible customer?",
+"options":[
+"INAD",
+"DEPU",
+"MEDA",
+"STCR"
+],
+"correct":0,
+"explanation":"INAD is the SSR code used for an inadmissible customer."
+},
 
-{"question":"Unruly passenger case must follow:","options":["Personal decision","Unruly SOP","Passenger request","Random action"],"correct":1,"explanation":"Handled as per unruly passenger SOP."},
+{
+"question":"Which SSR code is assigned to a stretcher customer?",
+"options":[
+"WCHR",
+"STUD",
+"STCR",
+"NSDR"
+],
+"correct":2,
+"explanation":"STCR is the SSR code used for a stretcher customer."
+},
+{
+"question":"What does the SSR code STUD represent?",
+"options":[
+"Standby traveler",
+"Student fare",
+"Study tour passenger",
+"Special ticket under discount"
+],
+"correct":1,
+"explanation":"STUD is the SSR code used for a student fare."
+},
+{
+"question":"Which SSR code confirms baggage held at inline screening is cleared by the customer?",
+"options":[
+"HLOK",
+"LEVL",
+"WCHW",
+"CPTR"
+],
+"correct":1,
+"explanation":"LEVL indicates confirmation from the customer that baggage held at inline screening is cleared."
+},
 
 {"question":"Cabin baggage exceeding size must be:","options":["Allowed","Tagged and checked in","Ignored","Gifted"],"correct":1,"explanation":"Oversized cabin baggage must be checked in."},
 
@@ -227,9 +287,29 @@ const quizData = [
 
 {"question":"Proper documentation ensures:","options":["Compliance","Confusion","Delay","Marketing"],"correct":0,"explanation":"Documentation ensures compliance."},
 
-{"question":"Check-in agent final responsibility is:","options":["Ticket sales","Correct documentation and seat allocation","Meal choice","Upgrade selling"],"correct":1,"explanation":"Agent ensures documentation and correct seat assignment."},
 
-{"question":"PRM passengers must receive:","options":["Standard queue only","Priority assistance","Delayed boarding","Separate ticket"],"correct":1,"explanation":"PRM must receive priority assistance."},
+{
+"question":"Under NMOVE Option, what charges apply if a no-show customer waits until D-75 minutes for seat confirmation?",
+"options":[
+"NMOVE fee, change fee, and fare difference",
+"Only NMOVE fee",
+"No charges apply",
+"Only fare difference"
+],
+"correct":1,
+"explanation":"Under NMOVE Option, if the eligible no-show customer waits until D-75 minutes and a seat is available, only the NMOVE fee is charged."
+},
+{
+"question":"What happens if a customer does not choose NMOVE Option?",
+"options":[
+"The ticket is automatically refunded",
+"The booking remains open for future travel",
+"The entire fare is forfeited",
+"Only the change fee is charged"
+],
+"correct":2,
+"explanation":"If the customer does not opt for either NMOVE Option, the entire fare is forfeited."
+},
 
 {"question":"Denied boarding compensation policy applies when:","options":["Weather issue","Operational overbooking","Passenger late","Security delay"],"correct":1,"explanation":"Applies in overbooking scenarios."},
 
@@ -251,13 +331,34 @@ const quizData = [
 
 {"question":"Passenger data misuse leads to:","options":["Compliance risk","Improved service","Marketing gain","None"],"correct":0,"explanation":"Data misuse creates compliance risk."},
 
-{"question":"Infant briefing includes:","options":["Seat upgrade","Infant belt instructions","Extra baggage","Window seat"],"correct":1,"explanation":"Infant safety instructions must be provided."},
+
+{
+"question":"Under the SHFT (Shift Your Flight) policy, what type of flight change is permitted?",
+"options":[
+"Only postponing the flight",
+"Both preponing and postponing the flight",
+"Only preponing the flight within 4 hours",
+"Unlimited changes on any date"
+],
+"correct":2,
+"explanation":"SHFT allows customers to prepone their domestic flight within a 4-hour window. Postponing is not permitted."
+},
+{
+"question":"Which condition is mandatory for using the SHFT service?",
+"options":[
+"Customer can request the change online",
+"Customer must be physically present at the airport and subject to seat availability",
+"Change can be made after boarding closes",
+"Applicable to international flights only"
+],
+"correct":1,
+"explanation":"SHFT changes can only be made at the airport with the customer physically present and are subject to seat availability. It is valid only for domestic flights."
+},
 
 {"question":"Refund processing must follow:","options":["Passenger mood","Airline refund policy","Cabin crew suggestion","Random timeline"],"correct":1,"explanation":"Refunds follow airline policy."},
 
 {"question":"Travel document discrepancy requires:","options":["Ignore","Deny boarding as per regulation","Cabin crew approval","Passenger signature only"],"correct":1,"explanation":"Invalid documentation requires denial as per regulation."},
 
-{"question":"Professional email replies must be:","options":["Emotional","Clear and structured","Slang-based","Short and vague"],"correct":1,"explanation":"Official emails must be structured."},
 
 {"question":"Handling elderly passengers requires:","options":["Standard approach","Additional patience","Delay","Avoidance"],"correct":1,"explanation":"Elderly passengers require patience."},
 
@@ -267,13 +368,32 @@ const quizData = [
 
 {"question":"Service professionalism requires:","options":["Respect and clarity","Rigid tone","Argument","Silence"],"correct":0,"explanation":"Respect and clarity define professionalism."},
 
-{"question":"Headcount mismatch must be:","options":["Ignored","Resolved before departure","Delayed","Hidden"],"correct":1,"explanation":"Mismatch must be resolved before departure."},
+{"question":"Who are classified as CIP customers?",
+"options":[
+"Customers traveling with infants",
+"Customers with special meal requests",
+"Customers who can influence travel arrangements and are important from sales or publicity perspective",
+"Passengers requiring wheelchair assistance"
+],
+"correct":2,
+"explanation":"CIP customers are those who can influence travel arrangements and are important to the airline from a sales or publicity standpoint."
+},
 
 {"question":"Gate closure adherence ensures:","options":["Safety and schedule discipline","Passenger anger","Marketing growth","Seat confusion"],"correct":0,"explanation":"Gate discipline ensures safe departure."},
 
 {"question":"Passenger complaint follow-up ensures:","options":["Improvement","Blame","Delay","Conflict"],"correct":0,"explanation":"Follow-up improves service quality."},
 
-{"question":"Final objective of boarding process is:","options":["Revenue","Safe and compliant departure","Upgrade selling","Speed only"],"correct":1,"explanation":"Boarding ensures safe and compliant departure."},
+{
+"question":"Which business professionals may be treated as VIP customers?",
+"options":[
+"Entry-level employees",
+"Chairmen, directors, senior managers, and publicity celebrities",
+"Only government employees",
+"Passengers with corporate discounts"
+],
+"correct":1,
+"explanation":"Business leaders, senior managers, celebrities, actors, and sportsmen may be categorized as VIP customers."
+},
 
 {"question":"Professional consistency builds:","options":["Trust","Confusion","Fear","Conflict"],"correct":0,"explanation":"Consistency builds passenger trust."},
 
@@ -285,15 +405,66 @@ const quizData = [
 
 {"question":"Complaint handling requires:","options":["Empathy and action","Argument","Delay","Avoidance"],"correct":0,"explanation":"Empathy and action resolve complaints."},
 
-{"question":"Passenger trust increases with:","options":["Clear updates","Silence","Delay","Rigid tone"],"correct":0,"explanation":"Clear updates increase trust."},
+{
+"question":"What additional baggage benefit is provided when a customer books 6E Double Seats?",
+"options":[
+"No extra baggage is allowed",
+"Additional 5 kg baggage allowance",
+"Additional 10 kg baggage allowing 2 checked pieces",
+"Unlimited baggage allowance"
+],
+"correct":2,
+"explanation":"Customers booking 6E Double Seats receive an additional 10 kg baggage allowance and may carry 2 pieces of checked baggage."
+},
+{
+"question":"What restriction applies when booking an extra seat under the 6E Double Seats process?",
+"options":[
+"It cannot be booked within 2 hours (domestic) or 4 hours (international) before departure",
+"It is available only at the airport",
+"It requires medical approval",
+"It is allowed only for international flights"
+],
+"correct":0,
+"explanation":"Extra seats cannot be booked within 2 hours for domestic flights and within 4 hours for international flights."
+},
+{
+"question":"How many boarding passes are generated for a customer using the 6E Double Seats option?",
+"options":[
+"Two separate boarding passes",
+"One boarding pass showing two seat numbers",
+"No boarding pass is generated online",
+"A temporary boarding slip only"
+],
+"correct":1,
+"explanation":"The system generates one boarding pass with two seat numbers printed, along with the EXST SSR."
+},
+{
+"question":"During airport processing of a 6E Double Seats booking, which customer should staff select in the system?",
+"options":[
+"Both customers listed in the PNR",
+"Only the second customer with EXTRASEAT name",
+"Only the first customer, ensuring the extra seat profile remains unselected",
+"Neither customer until boarding"
+],
+"correct":2,
+"explanation":"Staff must select only the first customer. The extra seat profile (with EXTRASEAT middle name) must remain unselected and stay as no-show in the system."
+},
 
-{"question":"Documentation accuracy ensures:","options":["Safety compliance","Marketing","Seat upgrades","Revenue"],"correct":0,"explanation":"Accuracy ensures compliance."},
 
-{"question":"Customer service success is measured by:","options":["Passenger satisfaction","Ticket price","Upgrade count","Meal sale"],"correct":0,"explanation":"Passenger satisfaction reflects service success."},
 
-{"question":"Policy adherence must be:","options":["Consistent","Selective","Flexible","Situational"],"correct":0,"explanation":"Policy adherence must be consistent."},
+{"question":"Overall airport service objective is:","options":["Safe, compliant and positive passenger journey","Profit only","Seat upgrade","Marketing growth"],"correct":0,"explanation":"Goal is safe and positive journey."},
 
-{"question":"Overall airport service objective is:","options":["Safe, compliant and positive passenger journey","Profit only","Seat upgrade","Marketing growth"],"correct":0,"explanation":"Goal is safe and positive journey."}
+{
+"question":"Can an UMNR purchase a 6E Double Seat booking?",
+"options":[
+"No, UMNRs are not allowed to book double seats",
+"Yes, but emergency exit row seats cannot be selected",
+"Yes, with no seating restrictions",
+"Only with medical approval"
+],
+"correct":1,
+"explanation":"UMNRs can purchase a 6E Double Seat during booking, but selection of emergency exit row seats is not permitted."
+}
 
 ];
 
