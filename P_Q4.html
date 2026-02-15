@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
 <meta charset="UTF-8" />
-<title>ACE Practice Set 4</title>
+<title>IATA FINAL | Quiz 4</title>
 <style>
 body {
 font-family: 'Inter', Arial, sans-serif;
@@ -178,12 +178,12 @@ margin-top: 10px;
 </head>
 <body>
 <div class="container">
-<h1>ACE Practice Set 4</h1>
+<h1>IATA FINAL | Quiz 4</h1>
 <div id="sound-toggle" onclick="toggleSound()">
 <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
 </div>
 <div id="progress-container"><div id="progress-bar"></div></div>
-<div id="question-counter">Questions: 10</div>
+<div id="question-counter">Questions: 50</div>
 <div id="alert">⏰ Hurry! Time is almost up!</div>
 <div id="quiz-container"></div>
 <div id="score-container"></div>
@@ -194,126 +194,61 @@ margin-top: 10px;
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-
-const quizData = [
-
-  {
-    "question": "At the check-in counter, a passenger using a wheelchair informs the staff that wheelchair assistance was not pre-booked. What is the most appropriate action?",
-    "options": [
-      "Deny assistance due to lack of prior request",
-      "Ask the passenger to arrange their own support",
-      "Arrange wheelchair assistance immediately and inform the relevant teams",
-      "Ask the passenger to wait until boarding time"
-    ],
-    "correct": 2,
-    "explanation": "Even if assistance was not pre-booked, staff should arrange wheelchair support immediately and coordinate with airport teams to ensure safe movement."
-  },
-  {
-    "question": "A visually impaired passenger appears disoriented in the terminal while trying to locate the boarding gate. What should ground staff do?",
-    "options": [
-      "Give verbal directions and continue with duties",
-      "Escort the passenger or arrange guidance assistance to the gate",
-      "Ask another passenger to help",
-      "Wait for the passenger to request help"
-    ],
-    "correct": 1,
-    "explanation": "Ground staff should proactively provide or arrange guidance assistance to ensure the passenger reaches the gate safely."
-  },
-  {
-    "question": "During boarding, a passenger with reduced mobility is assigned an emergency exit row seat. What is the correct action?",
-    "options": [
-      "Allow the passenger to remain seated to avoid delay",
-      "Move the passenger only if they request a change",
-      "Reassign the passenger to a suitable non-exit row seat",
-      "Ask cabin crew to make a decision after take-off"
-    ],
-    "correct": 2,
-    "explanation": "Passengers with reduced mobility must not be seated in emergency exit rows and should be reassigned to appropriate seats before departure."
-  },
-  {
-    "question": "A passenger with a hearing impairment does not respond to boarding announcements. What is the best approach for staff?",
-    "options": [
-      "Assume the passenger is not ready to board",
-      "Repeat the announcement more loudly",
-      "Approach the passenger and communicate visually or in writing",
-      "Remove the passenger from the boarding list"
-    ],
-    "correct": 2,
-    "explanation": "Staff should use visual cues or written communication to ensure passengers with hearing impairments receive important information."
-  },
-  {
-    "question": "At security screening, a passenger with limited mobility is struggling to stand for an extended period. What should staff coordinate?",
-    "options": [
-      "Ask the passenger to wait until the queue clears",
-      "Request priority or alternative screening support from security",
-      "Ask the passenger to return later",
-      "Proceed without making any accommodation"
-    ],
-    "correct": 1,
-    "explanation": "Staff should coordinate with security to provide priority or alternative screening arrangements for passengers with limited mobility."
-  },
-  {
-    "question": "On arrival, a passenger’s personal wheelchair has not been brought to the aircraft door as expected. What is the most appropriate response?",
-    "options": [
-      "Ask the passenger to walk to baggage claim",
-      "Provide an airport wheelchair immediately and follow up to retrieve the personal wheelchair",
-      "Ask the passenger to wait inside the aircraft without support",
-      "Advise the passenger to file a complaint later"
-    ],
-    "correct": 1,
-    "explanation": "If the personal wheelchair is delayed, staff should provide an airport wheelchair immediately and coordinate retrieval to minimize inconvenience."
-  },
-  {
-    "question": "A passenger with cognitive challenges appears confused by the boarding process and becomes distressed. What should staff do?",
-    "options": [
-      "Ignore the situation to avoid escalation",
-      "Speak calmly, provide simple step-by-step guidance, and offer assistance",
-      "Ask the passenger to step aside until boarding is complete",
-      "Call security immediately"
-    ],
-    "correct": 1,
-    "explanation": "Calm communication and simple guidance help reduce distress and support safe boarding for passengers with cognitive challenges."
-  },
-  {
-    "question": "A catering staff member notices that a passenger with limited hand mobility is unable to manage their tray table after meal service. What is the appropriate response?",
-    "options": [
-      "Ignore the situation as it is not a safety issue",
-      
-      "Ask another passenger to help",
-      "Remove the meal without asking",
-       "Offer reasonable assistance within operational limits"
-    ],
-    "correct": 3,
-    "explanation": "Offering reasonable assistance within operational limits helps maintain dignity and safety for passengers with reduced mobility."
-  },
-  {
-    "question": "During disembarkation, a passenger requiring wheelchair assistance is asked to wait until all other passengers leave the aircraft. What is the best practice?",
-    "options": [
-       "Arrange timely wheelchair support and communicate expected wait time clearly",
-      "Ask the passenger to deplane last without support",
-      
-      "Ask the passenger to stand near the aisle",
-      "Direct the passenger to walk slowly to the terminal"
-    ],
-    "correct": 0,
-    "explanation": "Wheelchair assistance should be arranged promptly, and any wait should be clearly communicated to the passenger to maintain comfort and dignity."
-  },
-  {
-    "question": "At the boarding gate, staff notice that a passenger with a visible mobility impairment is carrying heavy cabin baggage. What is the most appropriate action?",
-    "options": [
-      "Ignore the situation unless the passenger asks for help",
-      "Offer assistance or arrange help with handling the baggage",
-      "Instruct the passenger to manage independently",
-      "Remove the baggage as excess without explanation"
-    ],
-    "correct": 1,
-    "explanation": "Offering help with baggage handling supports safety and reduces risk of injury for passengers with mobility impairments."
-  }
-
+    const quizData = [
+{"question":"What is the IATA code for Delhi?","options":["BOM","DEL","HYD","BLR"],"correct":1,"explanation":"DEL is the IATA code for Delhi, a major IndiGo hub."},
+{"question":"Which city uses the IATA code DXB?","options":["Dubai","Doha","Dublin","Dakar"],"correct":0,"explanation":"DXB is the IATA code for Dubai, served by IndiGo."},
+{"question":"What is the IATA code for Mumbai?","options":["MAA","CCU","BOM","PNQ"],"correct":2,"explanation":"BOM is the IATA code for Mumbai."},
+{"question":"Which city uses the IATA code SIN?","options":["Seoul","Singapore","Sydney","Shanghai"],"correct":1,"explanation":"SIN is the IATA code for Singapore."},
+{"question":"What is the IATA code for Bengaluru?","options":["HYD","GOI","BLR","AMD"],"correct":2,"explanation":"BLR is the IATA code for Bengaluru."},
+{"question":"Which city uses the IATA code DOH?","options":["Dhaka","Dubai","Doha","Dammam"],"correct":2,"explanation":"DOH is the IATA code for Doha."},
+{"question":"What is the IATA code for Chennai?","options":["TRV","MAA","COK","IXC"],"correct":1,"explanation":"MAA is the IATA code for Chennai."},
+{"question":"Which city corresponds to the IATA code BKK?","options":["Bangkok","Beijing","Baku","Brisbane"],"correct":0,"explanation":"BKK is the IATA code for Bangkok."},
+{"question":"What is the IATA code for Kolkata?","options":["PAT","GAU","CCU","LKO"],"correct":2,"explanation":"CCU is the IATA code for Kolkata."},
+{"question":"Which city uses the IATA code MLE?","options":["Malé","Milan","Medan","Manila"],"correct":0,"explanation":"MLE is the IATA code for Malé."},
+{"question":"What is the IATA code for Hyderabad?","options":["VGA","BLR","HYD","NAG"],"correct":2,"explanation":"HYD is the IATA code for Hyderabad."},
+{"question":"Which city uses the IATA code CMB?","options":["Colombo","Cairo","Canberra","Copenhagen"],"correct":0,"explanation":"CMB is the IATA code for Colombo."},
+{"question":"What is the IATA code for Kochi?","options":["CCJ","COK","CJB","TRZ"],"correct":1,"explanation":"COK is the IATA code for Kochi."},
+{"question":"Which city uses the IATA code KWI?","options":["Kathmandu","Kuwait City","Karachi","Kigali"],"correct":1,"explanation":"KWI is the IATA code for Kuwait City."},
+{"question":"What is the IATA code for Ahmedabad?","options":["ATQ","AMD","IDR","IXU"],"correct":1,"explanation":"AMD is the IATA code for Ahmedabad."},
+{"question":"Which city uses the IATA code HKT?","options":["Hanoi","Hong Kong","Phuket","Helsinki"],"correct":2,"explanation":"HKT is the IATA code for Phuket."},
+{"question":"What is the IATA code for Pune?","options":["BOM","IDR","PNQ","NAG"],"correct":2,"explanation":"PNQ is the IATA code for Pune."},
+{"question":"Which city uses the IATA code AUH?","options":["Amsterdam","Abu Dhabi","Athens","Auckland"],"correct":1,"explanation":"AUH is the IATA code for Abu Dhabi."},
+{"question":"What is the IATA code for Jaipur?","options":["JDH","UDR","JAI","BIK"],"correct":2,"explanation":"JAI is the IATA code for Jaipur."},
+{"question":"Which city uses the IATA code DAC?","options":["Dubai","Dublin","Dhaka","Doha"],"correct":2,"explanation":"DAC is the IATA code for Dhaka."},
+{"question":"What is the IATA code for Guwahati?","options":["DIB","GAU","IXA","AJL"],"correct":1,"explanation":"GAU is the IATA code for Guwahati."},
+{"question":"Which city uses the IATA code SHJ?","options":["Seoul","Sharjah","Shanghai","Shiraz"],"correct":1,"explanation":"SHJ is the IATA code for Sharjah."},
+{"question":"What is the IATA code for Lucknow?","options":["IXD","LKO","PAT","KNU"],"correct":1,"explanation":"LKO is the IATA code for Lucknow."},
+{"question":"Which city uses the IATA code KTM?","options":["Kathmandu","Karachi","Kuwait City","Kigali"],"correct":0,"explanation":"KTM is the IATA code for Kathmandu."},
+{"question":"What is the IATA code for Goa?","options":["GOI","IXE","COK","BLR"],"correct":0,"explanation":"GOI is the IATA code for Goa."},
+{"question":"Which city uses the IATA code JED?","options":["Jeddah","Jakarta","Jerusalem","Johannesburg"],"correct":0,"explanation":"JED is the IATA code for Jeddah."},
+{"question":"What is the IATA code for Chandigarh?","options":["IXJ","IXC","DED","SXR"],"correct":1,"explanation":"IXC is the IATA code for Chandigarh."},
+{"question":"Which city uses the IATA code RUH?","options":["Riyadh","Rome","Rabat","Riga"],"correct":0,"explanation":"RUH is the IATA code for Riyadh."},
+{"question":"What is the IATA code for Thiruvananthapuram?","options":["IXM","TRV","TIR","CJB"],"correct":1,"explanation":"TRV is the IATA code for Thiruvananthapuram."},
+{"question":"Which city uses the IATA code DMM?","options":["Dammam","Doha","Dubai","Dhaka"],"correct":0,"explanation":"DMM is the IATA code for Dammam."},
+{"question":"What is the IATA code for Ranchi?","options":["IXR","PAT","RPR","IXD"],"correct":0,"explanation":"IXR is the IATA code for Ranchi."},
+{"question":"Which city uses the IATA code ATH?","options":["Athens","Atlanta","Ankara","Abu Dhabi"],"correct":0,"explanation":"ATH is the IATA code for Athens."},
+{"question":"What is the IATA code for Patna?","options":["PAT","GWL","BHO","IXD"],"correct":0,"explanation":"PAT is the IATA code for Patna."},
+{"question":"Which city uses the IATA code MCT?","options":["Muscat","Madrid","Manama","Malé"],"correct":0,"explanation":"MCT is the IATA code for Muscat."},
+{"question":"What is the IATA code for Bagdogra?","options":["IXB","IXA","GAU","DIB"],"correct":0,"explanation":"IXB is the IATA code for Bagdogra."},
+{"question":"Which city uses the IATA code KUL?","options":["Kuala Lumpur","Kuwait City","Karachi","Kathmandu"],"correct":0,"explanation":"KUL is the IATA code for Kuala Lumpur."},
+{"question":"What is the IATA code for Mangalore?","options":["IXE","COK","GOI","BLR"],"correct":0,"explanation":"IXE is the IATA code for Mangalore."},
+{"question":"Which city uses the IATA code HKG?","options":["Hanoi","Hong Kong","Helsinki","Hamburg"],"correct":1,"explanation":"HKG is the IATA code for Hong Kong."},
+{"question":"What is the IATA code for Nagpur?","options":["BHO","NAG","IDR","RPR"],"correct":1,"explanation":"NAG is the IATA code for Nagpur."},
+{"question":"Which city uses the IATA code TBS?","options":["Tbilisi","Tunis","Tokyo","Tallinn"],"correct":0,"explanation":"TBS is the IATA code for Tbilisi."},
+{"question":"What is the IATA code for Indore?","options":["IDR","BHO","NAG","GWL"],"correct":0,"explanation":"IDR is the IATA code for Indore."},
+{"question":"Which city uses the IATA code ALA?","options":["Almaty","Athens","Abu Dhabi","Amman"],"correct":0,"explanation":"ALA is the IATA code for Almaty."},
+{"question":"What is the IATA code for Bhopal?","options":["IDR","BHO","NAG","RPR"],"correct":1,"explanation":"BHO is the IATA code for Bhopal."},
+{"question":"Which city uses the IATA code GYD?","options":["Geneva","Guangzhou","Baku","Giza"],"correct":2,"explanation":"GYD is the IATA code for Baku."},
+{"question":"What is the IATA code for Varanasi?","options":["IXD","VNS","PAT","LKO"],"correct":1,"explanation":"VNS is the IATA code for Varanasi."},
+{"question":"Which city uses the IATA code EVN?","options":["Edinburgh","Eindhoven","Yerevan","Erbil"],"correct":2,"explanation":"EVN is the IATA code for Yerevan."},
+{"question":"What is the IATA code for Jammu?","options":["SXR","ATQ","IXJ","IXC"],"correct":2,"explanation":"IXJ is the IATA code for Jammu."},
+{"question":"What is the IATA code for Rajahmundry?","options":["RJA","VGA","TIR","TRZ"],"correct":0,"explanation":"RJA is the IATA code for Rajahmundry Airport."},
+{"question":"What is the IATA code for Hubballi?","options":["HBX","IXG","GOI","BLR"],"correct":0,"explanation":"HBX is the IATA code for Hubballi Airport."},
+{"question":"Which city uses the IATA code TAS?","options":["Tashkent","Taipei","Tirana","Tunis"],"correct":0,"explanation":"TAS is the IATA code for Tashkent."}
 
 ];
 
- let currentQuestion = 0;
+    let currentQuestion = 0;
 let score = 0;
 let timer;
 let timeLeft = 60;
