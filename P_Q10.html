@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+<meta charset="UTF-8" />
+<title>ACE EXAM 1   | QUIZ 2</title>
+<style>
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+color: #23395d;
+min-height: 100vh;
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 96%;
+max-width: 500px;
+margin: 40px auto 0 auto;
+background: #fff;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+padding: 32px 24px;
+position: relative;
+}
+
+h1 {
+font-size: 2.2em;
+color: #207bfa;
+font-weight: 700;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
+
+#progress-container {
+width: 100%;
+background: #e9ecef;
+height: 12px;
+border-radius: 6px;
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+#progress-bar {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+transition: width 0.4s ease;
+}
+
+#question-counter {
+font-size: 1.1em;
+font-weight: 600;
+color: #525252;
+margin: 10px 0 18px 0;
+text-align: center;
+}
+
+.card {
+background: #f9f9fb;
+padding: 28px 24px;
+border-radius: 16px;
+box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+text-align: left;
+}
+
+.options label {
+display: block;
+background: #f5fafd;
+font-size: 1em;
+margin: 10px 0;
+cursor: pointer;
+padding: 11px 16px;
+border-radius: 8px;
+border: 2px solid #e3f6f5;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.options input {
+margin-right: 11px;
+}
+
+.btn {
+display: inline-block;
+margin: 18px 10px 0 0;
+padding: 12px 30px;
+font-size: 1.15em;
+font-weight: 600;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+color: #fff;
+box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct {
+background: #e6ffed !important;
+border-color: #43cea2 !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.wrong {
+background: #ffebef !important;
+border-color: #fa205c !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.disabled-option {
+opacity: 0.6;
+pointer-events: none;
+}
+
+.timer {
+font-weight: bold;
+margin-bottom: 15px;
+font-size: 1.08em;
+color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+margin-top: 18px;
+padding: 12px 16px;
+background: #f6f3e9;
+border-left: 5px solid #43cea2;
+border-radius: 0 8px 8px 0;
+font-size: 0.99em;
+color: #525252;
+}
+
+#alert {
+display: none;
+font-size: 1.07em;
+color: #fa205c;
+letter-spacing: 0.5px;
+margin: 6px 0;
+font-weight: 700;
+text-align: center;
+}
+
+#sound-toggle {
+margin: 18px 0;
+cursor: pointer;
+font-size: 1em;
+color: #43cea2;
+font-weight: 600;
+}
+
+#score-container {
+margin-top: 22px;
+text-align: center;
+}
+
+.highlight-latest-result {
+font-size: 1.33em;
+font-weight: 800;
+letter-spacing: 1px;
+margin-bottom: 18px;
+color: #207bfa;
+}
+
+#time-up-message {
+font-size: 1.1em;
+color: #fa205c;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ACE EXAM 1   | QUIZ 2</h1>
+<div id="sound-toggle" onclick="toggleSound()">
+<span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+</div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="question-counter">Questions: 50</div>
+<div id="alert">⏰ Hurry! Time is almost up!</div>
+<div id="quiz-container"></div>
+<div id="score-container"></div>
+<button id="start-button" class="btn">Start Quiz</button>
+</div>
+ <audio id="correct-sound" src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/audio/B4CWlP_CIkc1kju2x/audioblocks-feedback-correct-07_HiQUhCpDv_WM.mp3" preload="auto"></audio>
+<audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+
+const quizData = [
+
+{"question":"Boarding pass must be verified at:","options":["Security and gate","Aircraft only","Check-in only","Arrival hall"],"correct":0,"explanation":"Boarding pass verification required at security and gate."},
+
+{"question":"Gate change must be communicated via:","options":["Silence","Public announcement","Random message","Personal chat"],"correct":1,"explanation":"Gate changes must be publicly announced."},
+
+{"question":"Passenger arriving after gate closure is considered:","options":["Priority","Late show","Transit","Standby"],"correct":1,"explanation":"Arrival after gate closure is late show."},
+
+{"question":"Flight cancellation requires offering:","options":["Apology only","Refund or alternate flight","Seat upgrade","Coupon only"],"correct":1,"explanation":"Policy requires refund or re-accommodation."},
+
+{"question":"Power banks are allowed in:","options":["Checked baggage","Cabin baggage only","Cargo","Not allowed"],"correct":1,"explanation":"Power banks allowed only in cabin baggage."},
+
+{"question":"Single baggage piece above 32 kg is:","options":["Accepted","Accepted with approval","Not accepted","Allowed for VIP"],"correct":2,"explanation":"Single piece must not exceed 32 kg."},
+
+{"question":"Travel document validation prevents:","options":["Regulatory violation","Passenger comfort","Seat duplication","Upgrade loss"],"correct":0,"explanation":"Valid documents prevent regulatory violation."},
+
+{"question":"Passenger manifest must reflect:","options":["Estimated count","Accurate boarded count","Ticket sales","Meal count"],"correct":1,"explanation":"Manifest must reflect actual boarded passengers."},
+
+{"question":"Missed flight handling requires:","options":["Blame passenger","Explain policy and rebooking options","Ignore","Automatic refund"],"correct":1,"explanation":"Staff must explain rebooking options."},
+
+{"question":"Professional service avoids:","options":["Empathy","Arguments","Clarity","Respect"],"correct":1,"explanation":"Arguments must be avoided."},
+
+{"question":"Unruly passenger case must follow:","options":["Personal decision","Unruly SOP","Passenger request","Random action"],"correct":1,"explanation":"Handled as per unruly passenger SOP."},
+
+{"question":"Cabin baggage exceeding size must be:","options":["Allowed","Tagged and checked in","Ignored","Gifted"],"correct":1,"explanation":"Oversized cabin baggage must be checked in."},
+
+{"question":"Delayed baggage must be:","options":["Ignored","Reported and tracked","Blamed","Discarded"],"correct":1,"explanation":"Delayed baggage must be tracked properly."},
+
+{"question":"Customer satisfaction improves with:","options":["Transparency","Silence","Delay","Rigid tone"],"correct":0,"explanation":"Transparency improves satisfaction."},
+
+{"question":"Proper documentation ensures:","options":["Compliance","Confusion","Delay","Marketing"],"correct":0,"explanation":"Documentation ensures compliance."},
+
+{"question":"Check-in agent final responsibility is:","options":["Ticket sales","Correct documentation and seat allocation","Meal choice","Upgrade selling"],"correct":1,"explanation":"Agent ensures documentation and correct seat assignment."},
+
+{"question":"PRM passengers must receive:","options":["Standard queue only","Priority assistance","Delayed boarding","Separate ticket"],"correct":1,"explanation":"PRM must receive priority assistance."},
+
+{"question":"Denied boarding compensation policy applies when:","options":["Weather issue","Operational overbooking","Passenger late","Security delay"],"correct":1,"explanation":"Applies in overbooking scenarios."},
+
+{"question":"Professional grooming must be maintained:","options":["During audit only","At all times on duty","Only for VIP flights","Optional"],"correct":1,"explanation":"Grooming standards apply at all times."},
+
+{"question":"Clear communication during disruption builds:","options":["Trust","Confusion","Revenue loss","Conflict"],"correct":0,"explanation":"Transparency builds trust."},
+
+{"question":"Lost and found items must be:","options":["Ignored","Logged and stored properly","Taken home","Discarded"],"correct":1,"explanation":"Lost items must be logged."},
+
+{"question":"Queue control prevents:","options":["Passenger rush","Smooth flow","Order","Compliance"],"correct":0,"explanation":"Queue control prevents crowding."},
+
+{"question":"Complaint escalation should follow:","options":["Hierarchy","Random choice","Passenger suggestion","Social media"],"correct":0,"explanation":"Escalation must follow hierarchy."},
+
+{"question":"Professional integrity ensures:","options":["Policy adherence","Flexible rule breaking","Selective compliance","Favoritism"],"correct":0,"explanation":"Integrity means policy adherence."},
+
+{"question":"Boarding sequence discipline supports:","options":["Safety and OTP","Marketing","Seat upgrades","Meal service"],"correct":0,"explanation":"Boarding discipline supports safety and on-time performance."},
+
+{"question":"Service culture improves with:","options":["Open communication","Blame culture","Fear","Silence"],"correct":0,"explanation":"Open communication strengthens service culture."},
+
+{"question":"Passenger data misuse leads to:","options":["Compliance risk","Improved service","Marketing gain","None"],"correct":0,"explanation":"Data misuse creates compliance risk."},
+
+{"question":"Infant briefing includes:","options":["Seat upgrade","Infant belt instructions","Extra baggage","Window seat"],"correct":1,"explanation":"Infant safety instructions must be provided."},
+
+{"question":"Refund processing must follow:","options":["Passenger mood","Airline refund policy","Cabin crew suggestion","Random timeline"],"correct":1,"explanation":"Refunds follow airline policy."},
+
+{"question":"Travel document discrepancy requires:","options":["Ignore","Deny boarding as per regulation","Cabin crew approval","Passenger signature only"],"correct":1,"explanation":"Invalid documentation requires denial as per regulation."},
+
+{"question":"Professional email replies must be:","options":["Emotional","Clear and structured","Slang-based","Short and vague"],"correct":1,"explanation":"Official emails must be structured."},
+
+{"question":"Handling elderly passengers requires:","options":["Standard approach","Additional patience","Delay","Avoidance"],"correct":1,"explanation":"Elderly passengers require patience."},
+
+{"question":"Rebooking during cancellation depends on:","options":["Availability and policy","Passenger mood","Random seat","Ticket color"],"correct":0,"explanation":"Rebooking depends on availability and policy."},
+
+{"question":"Customer-first mindset ensures:","options":["Positive passenger experience","Revenue only","Upgrade selling","Strict tone"],"correct":0,"explanation":"Customer-first improves experience."},
+
+{"question":"Service professionalism requires:","options":["Respect and clarity","Rigid tone","Argument","Silence"],"correct":0,"explanation":"Respect and clarity define professionalism."},
+
+{"question":"Headcount mismatch must be:","options":["Ignored","Resolved before departure","Delayed","Hidden"],"correct":1,"explanation":"Mismatch must be resolved before departure."},
+
+{"question":"Gate closure adherence ensures:","options":["Safety and schedule discipline","Passenger anger","Marketing growth","Seat confusion"],"correct":0,"explanation":"Gate discipline ensures safe departure."},
+
+{"question":"Passenger complaint follow-up ensures:","options":["Improvement","Blame","Delay","Conflict"],"correct":0,"explanation":"Follow-up improves service quality."},
+
+{"question":"Final objective of boarding process is:","options":["Revenue","Safe and compliant departure","Upgrade selling","Speed only"],"correct":1,"explanation":"Boarding ensures safe and compliant departure."},
+
+{"question":"Professional consistency builds:","options":["Trust","Confusion","Fear","Conflict"],"correct":0,"explanation":"Consistency builds passenger trust."},
+
+{"question":"Operational transparency reduces:","options":["Passenger anxiety","Compliance","Safety","Service quality"],"correct":0,"explanation":"Transparency reduces anxiety."},
+
+{"question":"Escalation matrix avoids:","options":["Structured resolution","Unclear decision making","Policy compliance","Accountability"],"correct":1,"explanation":"Escalation avoids confusion."},
+
+{"question":"Service excellence depends on:","options":["Attitude and efficiency","Uniform color","Aircraft size","Airport location"],"correct":0,"explanation":"Attitude drives excellence."},
+
+{"question":"Complaint handling requires:","options":["Empathy and action","Argument","Delay","Avoidance"],"correct":0,"explanation":"Empathy and action resolve complaints."},
+
+{"question":"Passenger trust increases with:","options":["Clear updates","Silence","Delay","Rigid tone"],"correct":0,"explanation":"Clear updates increase trust."},
+
+{"question":"Documentation accuracy ensures:","options":["Safety compliance","Marketing","Seat upgrades","Revenue"],"correct":0,"explanation":"Accuracy ensures compliance."},
+
+{"question":"Customer service success is measured by:","options":["Passenger satisfaction","Ticket price","Upgrade count","Meal sale"],"correct":0,"explanation":"Passenger satisfaction reflects service success."},
+
+{"question":"Policy adherence must be:","options":["Consistent","Selective","Flexible","Situational"],"correct":0,"explanation":"Policy adherence must be consistent."},
+
+{"question":"Overall airport service objective is:","options":["Safe, compliant and positive passenger journey","Profit only","Seat upgrade","Marketing growth"],"correct":0,"explanation":"Goal is safe and positive journey."}
+
+];
+
+
+ let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let soundOn = true;
+let soundEnabled = true;
+const userAnswers = [];
+const allResults = [];
+
+const quizContainer = document.getElementById("quiz-container");
+const scoreContainer = document.getElementById("score-container");
+const progressBar = document.getElementById("progress-bar");
+const questionCounter = document.getElementById("question-counter");
+const alertBox = document.getElementById("alert");
+const startButton = document.getElementById("start-button");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
+
+function startQuiz() {
+currentQuestion = 0;
+score = 0;
+userAnswers.length = 0;
+quizStartTime = new Date(); 
+startButton.style.display = "none";
+scoreContainer.innerHTML = "";
+showQuestion();
+}
+
+function showQuestion() {
+clearInterval(timer);
+timeLeft = 60;
+updateTimer();
+alertBox.style.display = "none";
+const questionData = quizData[currentQuestion];
+quizContainer.innerHTML = `
+<div class="card">
+<div class="timer" id="timer">Time left: ${timeLeft}s</div>
+<h2>${questionData.question}</h2>
+<div class="options">
+${questionData.options.map((opt, i) =>
+`<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+).join("")}
+</div>
+<div id="warning-message"></div>
+<button class="btn" onclick="submitAnswer()">Submit</button>
+</div>
+`;
+questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
+timer = setInterval(() => {
+timeLeft--;
+updateTimer();
+if (timeLeft <= 5) alertBox.style.display = "block";
+if (timeLeft === 0) submitAnswer(true);
+}, 1000);
+}
+
+function updateTimer() {
+const timerEl = document.getElementById("timer");
+if (!timerEl) return;
+timerEl.textContent = `Time left: ${timeLeft}s`;
+timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+}
+
+function submitAnswer(auto = false) {
+const selected = document.querySelector('input[name="answer"]:checked');
+const questionData = quizData[currentQuestion];
+
+if (!selected && !auto) {
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+return;
+}
+
+clearInterval(timer);
+alertBox.style.display = "none";
+
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "";
+
+let isCorrect = false;
+
+if (selected) {
+const answer = parseInt(selected.value);
+userAnswers[currentQuestion] = answer;
+if (answer === questionData.correct) {
+score++;
+isCorrect = true;
+}
+} else {
+userAnswers[currentQuestion] = null;
+}
+
+const optionsLabels = document.querySelectorAll(".options label");
+optionsLabels.forEach((label, i) => {
+label.classList.add("disabled");
+const input = label.querySelector('input');
+if (input) input.disabled = true;
+
+if (i === questionData.correct) label.classList.add("correct");
+else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
+});
+
+const submitBtn = quizContainer.querySelector("button.btn");
+if (submitBtn) submitBtn.disabled = true;
+
+quizContainer.innerHTML += `
+<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+<button class="btn" onclick="nextQuestion()">Next</button>
+`;
+
+setTimeout(() => {
+showResult(isCorrect);
+}, 150);
+
+progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+allResults[currentQuestion] = {
+question: questionData.question.trim(),
+selected: selected ? parseInt(selected.value) : null,
+correct: questionData.correct,
+options: questionData.options.map(o => o.trim()),
+explanation: questionData.explanation.trim(),
+};
+}
+
+function showResult(correct) {
+const sound = correct ? correctSound : wrongSound;
+sound.currentTime = 0;
+if (soundEnabled) sound.play();
+
+if (correct) {
+confetti();
+setTimeout(() => {
+sound.pause();
+sound.currentTime = 0;
+}, 2400);
+}
+}
+
+function nextQuestion() {
+currentQuestion++;
+if (currentQuestion >= quizData.length) {
+showScore();
+} else {
+showQuestion();
+}
+}
+
+function showScore() {
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - quizStartTime) / 1000); 
+const percentage = Math.round((score / quizData.length) * 100);
+const passed = percentage >= 90;
+
+quizContainer.innerHTML = "";
+questionCounter.textContent = `Quiz Completed!`;
+progressBar.style.width = "100%";
+
+let resultMessage = `
+<div class="highlight-latest-result">
+You scored ${score} out of ${quizData.length} (${percentage}%)
+<br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+${passed ? "✅ Passed!" : "❌ Not Passed"}
+</span>
+</div>
+`;
+
+let buttonsHTML = `
+<div class="button-group">
+<button class="btn" onclick="startQuiz()">Restart Quiz</button>
+<button class="btn" onclick="toggleReview()">Review Answers</button>
+<button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+<button class="btn" onclick="goHome()">Homepage</button>
+</div>
+<div id="review-section"></div>
+`;
+
+scoreContainer.innerHTML = resultMessage + buttonsHTML;
+}
+
+function toggleReview() {
+const reviewSection = document.getElementById("review-section");
+if (reviewSection.innerHTML.trim() !== "") {
+reviewSection.innerHTML = "";
+} else {
+let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+allResults.forEach((result, i) => {
+const userAnswerIndex = result.selected;
+const correctIndex = result.correct;
+resultsHTML += `
+<div class="card" style="margin-bottom:15px; text-align:left;">
+<strong>Q${i + 1}: ${result.question}</strong><br>
+Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+Correct answer: ${result.options[correctIndex]}<br>
+<div class="explanation">${result.explanation}</div>
+</div>
+`;
+});
+reviewSection.innerHTML = resultsHTML;
+}
+}
+
+function downloadResultsPDF(score, total, timeTaken) {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const now = new Date();
+const formattedDate = now.toLocaleString();
+const percentage = Math.round((score / total) * 100) + "%";
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.text("ACE Practice Set Results", 20, 20);
+
+const headers = ["Date", "Score", "Time Taken"];
+const data = [[ formattedDate, `${score} / ${total} (${percentage})`, `${timeTaken} seconds` ]];
+
+const startX = 20;
+const startY = 30;
+const colWidths = [60, 60, 60];
+const rowHeight = 10;
+
+headers.forEach((header, i) => {
+doc.setFillColor(240, 240, 240);
+doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+doc.setTextColor(0);
+doc.setFontSize(12);
+doc.text(header.trim(), startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+});
+
+data[0].forEach((text, i) => {
+const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+const y = startY + rowHeight;
+doc.rect(x, y, colWidths[i], rowHeight); 
+doc.text(text.trim(), x + 2, y + 7);
+});
+
+doc.save("quiz_results.pdf");
+}
+
+function goHome() {
+window.location.href = "index.html";
+}
+function toggleSound() {
+soundOn = !soundOn;
+soundEnabled = soundOn;
+const icon = document.getElementById("sound-icon");
+const text = document.getElementById("sound-text");
+if (soundOn) {
+icon.textContent = "🔊";
+text.textContent = "Sound ON";
+} else {
+icon.textContent = "🔇";
+text.textContent = "Sound OFF";
+}
+}
+
+startButton.addEventListener("click", startQuiz);
+</script>
+</body>
+</html>

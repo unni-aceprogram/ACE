@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+<meta charset="UTF-8" />
+<title>ACE EXAM 1   | QUIZ 1</title>
+<style>
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+color: #23395d;
+min-height: 100vh;
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 96%;
+max-width: 500px;
+margin: 40px auto 0 auto;
+background: #fff;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+padding: 32px 24px;
+position: relative;
+}
+
+h1 {
+font-size: 2.2em;
+color: #207bfa;
+font-weight: 700;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
+
+#progress-container {
+width: 100%;
+background: #e9ecef;
+height: 12px;
+border-radius: 6px;
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+#progress-bar {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+transition: width 0.4s ease;
+}
+
+#question-counter {
+font-size: 1.1em;
+font-weight: 600;
+color: #525252;
+margin: 10px 0 18px 0;
+text-align: center;
+}
+
+.card {
+background: #f9f9fb;
+padding: 28px 24px;
+border-radius: 16px;
+box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+text-align: left;
+}
+
+.options label {
+display: block;
+background: #f5fafd;
+font-size: 1em;
+margin: 10px 0;
+cursor: pointer;
+padding: 11px 16px;
+border-radius: 8px;
+border: 2px solid #e3f6f5;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.options input {
+margin-right: 11px;
+}
+
+.btn {
+display: inline-block;
+margin: 18px 10px 0 0;
+padding: 12px 30px;
+font-size: 1.15em;
+font-weight: 600;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+color: #fff;
+box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct {
+background: #e6ffed !important;
+border-color: #43cea2 !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.wrong {
+background: #ffebef !important;
+border-color: #fa205c !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.disabled-option {
+opacity: 0.6;
+pointer-events: none;
+}
+
+.timer {
+font-weight: bold;
+margin-bottom: 15px;
+font-size: 1.08em;
+color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+margin-top: 18px;
+padding: 12px 16px;
+background: #f6f3e9;
+border-left: 5px solid #43cea2;
+border-radius: 0 8px 8px 0;
+font-size: 0.99em;
+color: #525252;
+}
+
+#alert {
+display: none;
+font-size: 1.07em;
+color: #fa205c;
+letter-spacing: 0.5px;
+margin: 6px 0;
+font-weight: 700;
+text-align: center;
+}
+
+#sound-toggle {
+margin: 18px 0;
+cursor: pointer;
+font-size: 1em;
+color: #43cea2;
+font-weight: 600;
+}
+
+#score-container {
+margin-top: 22px;
+text-align: center;
+}
+
+.highlight-latest-result {
+font-size: 1.33em;
+font-weight: 800;
+letter-spacing: 1px;
+margin-bottom: 18px;
+color: #207bfa;
+}
+
+#time-up-message {
+font-size: 1.1em;
+color: #fa205c;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ACE EXAM 1   | QUIZ 1</h1>
+<div id="sound-toggle" onclick="toggleSound()">
+<span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+</div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="question-counter">Questions: 50</div>
+<div id="alert">⏰ Hurry! Time is almost up!</div>
+<div id="quiz-container"></div>
+<div id="score-container"></div>
+<button id="start-button" class="btn">Start Quiz</button>
+</div>
+ <audio id="correct-sound" src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/audio/B4CWlP_CIkc1kju2x/audioblocks-feedback-correct-07_HiQUhCpDv_WM.mp3" preload="auto"></audio>
+<audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+
+const quizData = [
+
+{"question":"On which date did IndiGo commence its operations?","options":["1st Sep 2011","27th Oct 2015","04th Aug 2006","15th Aug 2005"],"correct":2,"explanation":"IndiGo started its operations on 04th August 2006."},
+
+{"question":"What was IndiGo’s first international route?","options":["Mumbai to Dubai","Delhi to Singapore","Delhi to Dubai","Delhi to Doha"],"correct":2,"explanation":"IndiGo’s first international service was launched between New Delhi and Dubai."},
+
+{"question":"What is the IATA airline code for IndiGo?","options":["IG","6E","IN","GO"],"correct":1,"explanation":"6E is the 2-character IATA code assigned to IndiGo."},
+
+{"question":"How many dots are arranged in the IndiGo logo?","options":["10","15","18","20"],"correct":3,"explanation":"Twenty dots arranged in the shape of an aircraft form the IndiGo logo."},
+
+{"question":"What does PRM stand for?","options":["Passenger Requiring Monitoring","People with Reduced Mobility","Priority Reduced Member","Passenger with Reserved Mobility"],"correct":1,"explanation":"PRM stands for People with Reduced Mobility."},
+
+{"question":"Medical certificate is NOT required for:","options":["Customers needing medical equipment onboard","Customers requiring medical attention","Customers with disability not needing medical attention","Stretcher customers"],"correct":2,"explanation":"Medical certificate is not required for customers with disability unless medical attention or special equipment is needed."},
+
+{"question":"Guide dog travel request must be informed at least how many hours prior to departure?","options":["12 hours","24 hours","48 hours","72 hours"],"correct":2,"explanation":"Customers must inform IndiGo at least 48 hours prior to departure for guide dog travel."},
+
+{"question":"Guide dogs are NOT permitted on which aircraft?","options":["Airbus 320","Airbus 321","ATR 72-600","All aircraft"],"correct":2,"explanation":"Guide dogs are not permitted on ATR 72-600 aircraft due to safety reasons."},
+
+{"question":"Only how many guide dogs are accepted per flight per sector?","options":["Two","Three","One","Unlimited"],"correct":2,"explanation":"Only one guide dog is accepted per flight per sector."},
+
+{"question":"Stretcher bookings are NOT allowed on which aircraft?","options":["Airbus 320","ATR 72-600","Airbus 321","All aircraft"],"correct":1,"explanation":"Stretcher bookings are not allowed on ATR 72-600 aircraft."},
+
+{"question":"Stretcher booking requires payment for how many seats in addition to medical fee (domestic)?","options":["6 seats","7 seats","9 seats","5 seats"],"correct":2,"explanation":"For stretcher cases, cost of 9 seats plus applicable charges must be paid."},
+
+{"question":"DAA tag stands for:","options":["Delivery After Arrival","Direct Airport Assistance","Delivery at Aircraft","Disability Assistance Allowance"],"correct":2,"explanation":"DAA stands for Delivery at Aircraft."},
+
+{"question":"Which SSR code represents Unaccompanied Minor?","options":["INFT","UMNR","CHLD","BLND"],"correct":1,"explanation":"UMNR is the SSR code for Unaccompanied Minor."},
+
+{"question":"Which SSR code represents Wheelchair Until Cabin?","options":["WCHR","WCHW","WCHC","WCAB"],"correct":2,"explanation":"WCHC stands for Wheelchair Until Cabin."},
+
+{"question":"Which SSR code represents Inadmissible Customer?","options":["INFT","INAD","DEPU","MEDA"],"correct":1,"explanation":"INAD is the SSR code for Inadmissible Customer."},
+
+{"question":"Which SSR code represents Extra Seat?","options":["EXST","DBST","XSAT","SUPR"],"correct":0,"explanation":"EXST is the SSR code for Extra Seat."},
+
+{"question":"What does ABHF stand for?","options":["Additional Baggage Holding Fee","Additional Bag Fee","Airline Baggage Handling Fee","Advanced Baggage Fee"],"correct":1,"explanation":"ABHF stands for Additional Bag Fee."},
+
+{"question":"Domestic ABHF charge per additional bag is:","options":["500 INR","700 INR","1000 INR","1500 INR"],"correct":2,"explanation":"The ABHF charge for domestic flights is INR 1000 per additional bag."},
+
+{"question":"Blue Ribbon SSR for domestic flights is identified as:","options":["BRB","LBG","BRS","XBPA"],"correct":1,"explanation":"LBG identifies Blue Ribbon Baggage Protection for domestic flights."},
+
+{"question":"Blue Ribbon domestic fee per customer per PNR is:","options":["95 INR","150 INR","330 INR","250 INR"],"correct":0,"explanation":"Blue Ribbon fee for domestic flights is INR 95 per customer per PNR."},
+
+{"question":"Super 6E fare includes how many extra kg baggage allowance?","options":["3 kg","5 kg","10 kg","15 kg"],"correct":1,"explanation":"Super 6E fare includes an extra 5 kg baggage allowance."},
+
+{"question":"Which fare type does NOT include baggage allowance concept?","options":["Regular Fare","Super 6E","Lite Fare","Flexi Plus"],"correct":2,"explanation":"Lite fare does not include the standard baggage allowance concept."},
+
+{"question":"SHFT is applicable only for:","options":["Postponing flights","Preponing flights within 4 hours","International flights","Group bookings"],"correct":1,"explanation":"SHFT applies for preponing flights within 4 hours."},
+
+{"question":"Domestic SHFT fee for regular customers is:","options":["1000 INR","1500 INR","1800 INR","3000 INR"],"correct":2,"explanation":"The SHFT fee for regular domestic customers is INR 1800."},
+
+{"question":"NMOVE domestic fee is:","options":["2000 INR","3000 INR","4000 INR","5000 INR"],"correct":1,"explanation":"NMOVE domestic fee is INR 3000."},
+
+{"question":"NMOVE international fee is:","options":["3000 INR","4000 INR","5000/6000 INR","8000 INR"],"correct":2,"explanation":"NMOVE international fee is INR 5000 or 6000 depending on sector."},
+
+{"question":"Free baggage allowance within India is:","options":["10 kg","15 kg","20 kg","25 kg"],"correct":1,"explanation":"Free baggage allowance within India is 15 kg."},
+
+{"question":"Special baggage is divided into how many categories?","options":["Two","Three","Four","Five"],"correct":1,"explanation":"Special baggage is divided into two categories: sporting equipment and musical instruments."},
+
+{"question":"Maximum quantity of sports equipment per customer for pre-booking is:","options":["1","2","3","4"],"correct":2,"explanation":"Maximum 3 pieces per customer can be pre-booked."},
+
+{"question":"CPTR stands for:","options":["Corporate Passenger Travel Record","Corporate Traveler","Customer Premium Travel","Corporate Passenger Ticket Record"],"correct":1,"explanation":"CPTR stands for Corporate Traveler."},
+
+{"question":"CPML means:","options":["Corporate Meal","Complimentary Meal","Customer Paid Meal","Cabin Meal"],"correct":1,"explanation":"CPML indicates a complimentary snack and beverage."},
+
+{"question":"VIP stands for:","options":["Very Important Passenger","Verified Important Person","Very Important Pax","Valuable Important Person"],"correct":2,"explanation":"VIP stands for Very Important Pax."},
+
+{"question":"CIP stands for:","options":["Commercially Important Pax","Customer Important Passenger","Corporate Important Person","Certified Important Pax"],"correct":0,"explanation":"CIP stands for Commercially Important Pax."},
+
+{"question":"SIP stands for:","options":["Special Important Passenger","Socially Important Person","Senior Important Pax","Security Important Passenger"],"correct":1,"explanation":"SIP stands for Socially Important Person."},
+
+{"question":"EXST SSR status in manifest is reflected as:","options":["Blank","NS","FF","BD"],"correct":2,"explanation":"Customer with EXST SSR is reflected as FF (checked-in and boarded)."},
+
+
+{"question":"Maximum weight allowed for personal item on extra seat is:","options":["50 kg","60 kg","75 kg","100 kg"],"correct":2,"explanation":"The weight of item on extra seat must not exceed 75 kg."},
+
+{"question":"Which SSR identifies NPS Promoter?","options":["NPSD","NPSP","NPSN","NPSS"],"correct":1,"explanation":"NPSP identifies NPS Promoter."},
+
+{"question":"Which SSR identifies NPS Detractor?","options":["NPSP","NPSN","NPSD","NPSR"],"correct":2,"explanation":"NPSD identifies NPS Detractor."},
+
+{"question":"SHFT changes can be made only at:","options":["Website","Call Center","Airport","Mobile App"],"correct":2,"explanation":"SHFT changes can be made only at the airport."},
+
+{"question":"Super 6E includes free seat including:","options":["Only standard seat","Only middle seat","Including XL rows","No free seat"],"correct":2,"explanation":"Super 6E includes free seat selection including XL rows."},
+
+{"question":"Fare Lock duration options are:","options":["12 or 24 hrs","24 or 36 hrs","48 or 72 hrs","72 or 96 hrs"],"correct":2,"explanation":"Fare Lock allows locking fares for 48 or 72 hours."},
+
+{"question":"Fare Lock is refundable?","options":["Yes","No","Partially","Only for domestic"],"correct":1,"explanation":"Fare Lock fee is non-refundable and not adjustable."},
+
+{"question":"Which system requires NMOVE and SHFT charges to be added manually using F9?","options":["GoNow","SkySpeed","TIMATIC","APIS"],"correct":1,"explanation":"In SkySpeed, NMOVE and SHFT charges must be added manually using F9 – Fees."},
+
+{"question":"Hand baggage allowance for CPTR customers is:","options":["7 kg","10 kg","15 kg","20 kg"],"correct":1,"explanation":"CPTR customers have 10 kg hand baggage allowance."},
+
+{"question":"Which SSR code is used for Stretcher customer?","options":["STCR","MEDA","WCHR","HUMR"],"correct":0,"explanation":"STCR is the SSR code for Stretcher customer."},
+
+{"question":"Which SSR code represents Human Remains?","options":["HUMR","HRMN","DEPU","MEDA"],"correct":0,"explanation":"HUMR represents Human Remains."},
+
+{"question":"Which SSR code is used for Weapon – firearm/ammunition?","options":["WEAP","ARMS","GUNR","FIRE"],"correct":0,"explanation":"WEAP is the SSR code for weapon – firearm/ammunition."},
+
+{"question":"What is the maximum free baggage allowance for Super 6E domestic (including extra)?","options":["15 kg","18 kg","20 kg","25 kg"],"correct":2,"explanation":"Super 6E includes standard 15 kg plus extra 5 kg totaling 20 kg."},
+
+{"question":"Which SSR code represents Fast Forward?","options":["FFWD","FAST","PRBD","PRTY"],"correct":0,"explanation":"FFWD is the SSR code for Fast Forward service."},
+
+{"question":"Which SSR code represents Student Fare?","options":["STUD","SRCT","SUPR","FQT01"],"correct":0,"explanation":"STUD is the SSR code for Student Fare."}
+
+];
+
+ let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let soundOn = true;
+let soundEnabled = true;
+const userAnswers = [];
+const allResults = [];
+
+const quizContainer = document.getElementById("quiz-container");
+const scoreContainer = document.getElementById("score-container");
+const progressBar = document.getElementById("progress-bar");
+const questionCounter = document.getElementById("question-counter");
+const alertBox = document.getElementById("alert");
+const startButton = document.getElementById("start-button");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
+
+function startQuiz() {
+currentQuestion = 0;
+score = 0;
+userAnswers.length = 0;
+quizStartTime = new Date(); 
+startButton.style.display = "none";
+scoreContainer.innerHTML = "";
+showQuestion();
+}
+
+function showQuestion() {
+clearInterval(timer);
+timeLeft = 60;
+updateTimer();
+alertBox.style.display = "none";
+const questionData = quizData[currentQuestion];
+quizContainer.innerHTML = `
+<div class="card">
+<div class="timer" id="timer">Time left: ${timeLeft}s</div>
+<h2>${questionData.question}</h2>
+<div class="options">
+${questionData.options.map((opt, i) =>
+`<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+).join("")}
+</div>
+<div id="warning-message"></div>
+<button class="btn" onclick="submitAnswer()">Submit</button>
+</div>
+`;
+questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
+timer = setInterval(() => {
+timeLeft--;
+updateTimer();
+if (timeLeft <= 5) alertBox.style.display = "block";
+if (timeLeft === 0) submitAnswer(true);
+}, 1000);
+}
+
+function updateTimer() {
+const timerEl = document.getElementById("timer");
+if (!timerEl) return;
+timerEl.textContent = `Time left: ${timeLeft}s`;
+timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+}
+
+function submitAnswer(auto = false) {
+const selected = document.querySelector('input[name="answer"]:checked');
+const questionData = quizData[currentQuestion];
+
+if (!selected && !auto) {
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+return;
+}
+
+clearInterval(timer);
+alertBox.style.display = "none";
+
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "";
+
+let isCorrect = false;
+
+if (selected) {
+const answer = parseInt(selected.value);
+userAnswers[currentQuestion] = answer;
+if (answer === questionData.correct) {
+score++;
+isCorrect = true;
+}
+} else {
+userAnswers[currentQuestion] = null;
+}
+
+const optionsLabels = document.querySelectorAll(".options label");
+optionsLabels.forEach((label, i) => {
+label.classList.add("disabled");
+const input = label.querySelector('input');
+if (input) input.disabled = true;
+
+if (i === questionData.correct) label.classList.add("correct");
+else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
+});
+
+const submitBtn = quizContainer.querySelector("button.btn");
+if (submitBtn) submitBtn.disabled = true;
+
+quizContainer.innerHTML += `
+<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+<button class="btn" onclick="nextQuestion()">Next</button>
+`;
+
+setTimeout(() => {
+showResult(isCorrect);
+}, 150);
+
+progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+allResults[currentQuestion] = {
+question: questionData.question.trim(),
+selected: selected ? parseInt(selected.value) : null,
+correct: questionData.correct,
+options: questionData.options.map(o => o.trim()),
+explanation: questionData.explanation.trim(),
+};
+}
+
+function showResult(correct) {
+const sound = correct ? correctSound : wrongSound;
+sound.currentTime = 0;
+if (soundEnabled) sound.play();
+
+if (correct) {
+confetti();
+setTimeout(() => {
+sound.pause();
+sound.currentTime = 0;
+}, 2400);
+}
+}
+
+function nextQuestion() {
+currentQuestion++;
+if (currentQuestion >= quizData.length) {
+showScore();
+} else {
+showQuestion();
+}
+}
+
+function showScore() {
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - quizStartTime) / 1000); 
+const percentage = Math.round((score / quizData.length) * 100);
+const passed = percentage >= 90;
+
+quizContainer.innerHTML = "";
+questionCounter.textContent = `Quiz Completed!`;
+progressBar.style.width = "100%";
+
+let resultMessage = `
+<div class="highlight-latest-result">
+You scored ${score} out of ${quizData.length} (${percentage}%)
+<br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+${passed ? "✅ Passed!" : "❌ Not Passed"}
+</span>
+</div>
+`;
+
+let buttonsHTML = `
+<div class="button-group">
+<button class="btn" onclick="startQuiz()">Restart Quiz</button>
+<button class="btn" onclick="toggleReview()">Review Answers</button>
+<button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+<button class="btn" onclick="goHome()">Homepage</button>
+</div>
+<div id="review-section"></div>
+`;
+
+scoreContainer.innerHTML = resultMessage + buttonsHTML;
+}
+
+function toggleReview() {
+const reviewSection = document.getElementById("review-section");
+if (reviewSection.innerHTML.trim() !== "") {
+reviewSection.innerHTML = "";
+} else {
+let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+allResults.forEach((result, i) => {
+const userAnswerIndex = result.selected;
+const correctIndex = result.correct;
+resultsHTML += `
+<div class="card" style="margin-bottom:15px; text-align:left;">
+<strong>Q${i + 1}: ${result.question}</strong><br>
+Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+Correct answer: ${result.options[correctIndex]}<br>
+<div class="explanation">${result.explanation}</div>
+</div>
+`;
+});
+reviewSection.innerHTML = resultsHTML;
+}
+}
+
+function downloadResultsPDF(score, total, timeTaken) {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const now = new Date();
+const formattedDate = now.toLocaleString();
+const percentage = Math.round((score / total) * 100) + "%";
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.text("ACE Practice Set Results", 20, 20);
+
+const headers = ["Date", "Score", "Time Taken"];
+const data = [[ formattedDate, `${score} / ${total} (${percentage})`, `${timeTaken} seconds` ]];
+
+const startX = 20;
+const startY = 30;
+const colWidths = [60, 60, 60];
+const rowHeight = 10;
+
+headers.forEach((header, i) => {
+doc.setFillColor(240, 240, 240);
+doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+doc.setTextColor(0);
+doc.setFontSize(12);
+doc.text(header.trim(), startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+});
+
+data[0].forEach((text, i) => {
+const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+const y = startY + rowHeight;
+doc.rect(x, y, colWidths[i], rowHeight); 
+doc.text(text.trim(), x + 2, y + 7);
+});
+
+doc.save("quiz_results.pdf");
+}
+
+function goHome() {
+window.location.href = "index.html";
+}
+function toggleSound() {
+soundOn = !soundOn;
+soundEnabled = soundOn;
+const icon = document.getElementById("sound-icon");
+const text = document.getElementById("sound-text");
+if (soundOn) {
+icon.textContent = "🔊";
+text.textContent = "Sound ON";
+} else {
+icon.textContent = "🔇";
+text.textContent = "Sound OFF";
+}
+}
+
+startButton.addEventListener("click", startQuiz);
+</script>
+</body>
+</html>
