@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
 <meta charset="UTF-8" />
-<title>ACE Practice Set 3</title>
+<title>IATA DOMESTIC | Quiz 3</title>
 <style>
 body {
 font-family: 'Inter', Arial, sans-serif;
@@ -178,12 +178,12 @@ margin-top: 10px;
 </head>
 <body>
 <div class="container">
-<h1>ACE Practice Set 3</h1>
+<h1>IATA DOMESTIC | Quiz 3</h1>
 <div id="sound-toggle" onclick="toggleSound()">
 <span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
 </div>
 <div id="progress-container"><div id="progress-bar"></div></div>
-<div id="question-counter">Questions: 10</div>
+<div id="question-counter">Questions: 25</div>
 <div id="alert">⏰ Hurry! Time is almost up!</div>
 <div id="quiz-container"></div>
 <div id="score-container"></div>
@@ -194,127 +194,35 @@ margin-top: 10px;
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-
-const quizData = [
-
-  {
-    "question": "Which of the following best describes IndiGo’s responsibility toward passengers with reduced mobility during boarding?",
-    "options": [
-      "Providing medical treatment",
-      "Providing assistance for safe boarding and seating",
-      "Carrying personal baggage beyond limits",
-      "Allowing boarding without any checks"
-    ],
-    "correct": 1,
-    "explanation": "IndiGo provides assistance to help passengers with reduced mobility board safely and reach their assigned seats."
-  },
-  {
-    "question": "What should passengers do if they require special seating due to a disability?",
-    "options": [
-      "Request assistance at the boarding gate only",
-      "Inform the airline in advance during booking or check-in",
-      "Select any seat without informing the airline",
-      "Wait for cabin crew to allocate a seat onboard"
-    ],
-    "correct": 1,
-    "explanation": "Passengers should inform the airline in advance about special seating needs so that suitable arrangements can be made."
-  },
-  {
-    "question": "Which of the following is a limitation of cabin crew assistance for passengers with disabilities?",
-    "options": [
-       "Providing personal care such as feeding",
-      "Providing guidance during boarding",
-      "Helping with mobility to the seat",
-      
-      "Offering safety instructions"
-    ],
-    "correct": 0,
-    "explanation": "Cabin crew are not permitted to provide personal care such as feeding or toileting assistance."
-  },
-  {
-    "question": "If a passenger with a disability has connecting flights, what is the recommended action?",
-    "options": [
-      "Assume assistance will be automatic at all airports",
-      
-      "Request assistance only at the final destination",
-       "Inform IndiGo in advance for each sector of travel",
-      "Make arrangements directly with airport security"
-    ],
-    "correct": 2,
-    "explanation": "Passengers should inform the airline in advance for each leg of their journey to ensure assistance is arranged at all airports."
-  },
-  {
-    "question": "Which of the following best reflects IndiGo’s approach to communicating safety information to passengers with hearing impairments?",
-    "options": [
-      "Relying only on verbal announcements",
-      
-      "Providing personal interpreters for every passenger",
-      "Skipping safety briefings for such passengers",
-         "Using visual cues and written communication when required",
-    ],
-    "correct": 3,
-    "explanation": "For passengers with hearing impairments, IndiGo may use visual or written communication to ensure safety information is understood."
-  },
-  {
-    "question": "What is the primary reason passengers with limited mobility are seated near the aisle rather than in restricted seating areas?",
-    "options": [
-      "For faster meal service",
-      "For easier and safer movement during boarding and deplaning",
-      "For better inflight entertainment access",
-      "For additional legroom benefits"
-    ],
-    "correct": 1,
-    "explanation": "Seating arrangements aim to support safer movement and access for passengers with limited mobility during boarding and deplaning."
-  },
-  {
-    "question": "Which of the following is expected from ground staff when assisting passengers with disabilities?",
-    "options": [
-      "Providing personal medical care",
-      "Ensuring respectful communication and appropriate support",
-      "Deciding medical fitness to fly",
-      "Carrying personal items without limits"
-    ],
-    "correct": 1,
-    "explanation": "Ground staff are expected to communicate respectfully and provide appropriate support within their operational role."
-  },
-  {
-    "question": "If a passenger’s assistive device is damaged during handling, what is the appropriate action as per airline procedures?",
-    "options": [
-      "Ask the passenger to arrange repairs independently",
-      "Ignore minor damage",
-      "Follow the airline’s baggage or damage reporting process",
-      "Replace it immediately onboard"
-    ],
-    "correct": 2,
-    "explanation": "Any damage to assistive devices must be handled through the airline’s baggage or damage reporting and resolution process."
-  },
-  {
-    "question": "Which of the following best represents IndiGo’s commitment to equal access for passengers with disabilities?",
-    "options": [
-      "Providing assistance only when legally required",
-      
-      "Restricting travel during peak hours",
-      "Limiting online booking options",
-      "Ensuring non-discriminatory access to air travel services"
-    ],
-    "correct": 3,
-    "explanation": "IndiGo aims to ensure non-discriminatory access to air travel services for passengers with disabilities."
-  },
-  {
-    "question": "What should ground staff do if a passenger with a disability appears anxious or unsure during the travel process?",
-    "options": [
-      "Direct them to security without explanation",
-       "Ask them to manage independently",
-      "Provide calm reassurance and clear guidance",
-            "Delay assistance until boarding begins"
-    ],
-    "correct": 2,
-    "explanation": "Providing calm reassurance and clear guidance helps ensure a safe and respectful experience for passengers with disabilities."
-  }
-
+   const quizData = [
+{"question":"What is the IATA code for Dubai?","options":["DXB","DOH","AUH","SHJ"],"correct":0,"explanation":"DXB is the IATA code for Dubai International Airport."},
+{"question":"What is the IATA code for Doha?","options":["KWI","DOH","MCT","RUH"],"correct":1,"explanation":"DOH is the IATA code for Hamad International Airport, Doha."},
+{"question":"What is the IATA code for Singapore?","options":["BKK","SIN","KUL","HKG"],"correct":1,"explanation":"SIN is the IATA code for Singapore Changi Airport."},
+{"question":"What is the IATA code for Bangkok?","options":["BKK","HKT","DPS","HAN"],"correct":0,"explanation":"BKK is the IATA code for Suvarnabhumi Airport, Bangkok."},
+{"question":"What is the IATA code for Kuala Lumpur?","options":["SIN","KUL","BKK","CGK"],"correct":1,"explanation":"KUL is the IATA code for Kuala Lumpur International Airport."},
+{"question":"What is the IATA code for Abu Dhabi?","options":["DXB","AUH","DOH","RKT"],"correct":1,"explanation":"AUH is the IATA code for Abu Dhabi International Airport."},
+{"question":"What is the IATA code for Sharjah?","options":["SHJ","DXB","MCT","KWI"],"correct":0,"explanation":"SHJ is the IATA code for Sharjah International Airport."},
+{"question":"What is the IATA code for Muscat?","options":["RUH","MCT","JED","DMM"],"correct":1,"explanation":"MCT is the IATA code for Muscat International Airport."},
+{"question":"What is the IATA code for Kuwait City?","options":["KWI","DOH","BAH","MCT"],"correct":0,"explanation":"KWI is the IATA code for Kuwait International Airport."},
+{"question":"What is the IATA code for Malé?","options":["MLE","CMB","KTM","DAC"],"correct":0,"explanation":"MLE is the IATA code for Velana International Airport, Malé."},
+{"question":"What is the IATA code for Colombo?","options":["CMB","MLE","DAC","KTM"],"correct":0,"explanation":"CMB is the IATA code for Bandaranaike International Airport, Colombo."},
+{"question":"What is the IATA code for Kathmandu?","options":["DAC","KTM","CMB","HAN"],"correct":1,"explanation":"KTM is the IATA code for Tribhuvan International Airport, Kathmandu."},
+{"question":"What is the IATA code for Dhaka?","options":["DAC","KTM","CCU","RGN"],"correct":0,"explanation":"DAC is the IATA code for Hazrat Shahjalal International Airport, Dhaka."},
+{"question":"What is the IATA code for Phuket?","options":["BKK","DPS","HKT","KBV"],"correct":2,"explanation":"HKT is the IATA code for Phuket International Airport."},
+{"question":"What is the IATA code for Bali (Denpasar)?","options":["DPS","CGK","SUB","BKK"],"correct":0,"explanation":"DPS is the IATA code for Ngurah Rai International Airport, Bali."},
+{"question":"What is the IATA code for Hong Kong?","options":["HKG","TPE","ICN","PVG"],"correct":0,"explanation":"HKG is the IATA code for Hong Kong International Airport."},
+{"question":"What is the IATA code for Jeddah?","options":["RUH","JED","DMM","MED"],"correct":1,"explanation":"JED is the IATA code for King Abdulaziz International Airport, Jeddah."},
+{"question":"What is the IATA code for Riyadh?","options":["DMM","RUH","JED","KWI"],"correct":1,"explanation":"RUH is the IATA code for King Khalid International Airport, Riyadh."},
+{"question":"What is the IATA code for Dammam?","options":["DMM","RUH","DOH","BAH"],"correct":0,"explanation":"DMM is the IATA code for King Fahd International Airport, Dammam."},
+{"question":"What is the IATA code for Ras Al Khaimah?","options":["RKT","SHJ","DXB","AUH"],"correct":0,"explanation":"RKT is the IATA code for Ras Al Khaimah International Airport."},
+{"question":"What is the IATA code for Tashkent?","options":["ALA","TAS","FRU","TBS"],"correct":1,"explanation":"TAS is the IATA code for Tashkent International Airport."},
+{"question":"What is the IATA code for Almaty?","options":["TAS","ALA","GYD","EVN"],"correct":1,"explanation":"ALA is the IATA code for Almaty International Airport."},
+{"question":"What is the IATA code for Baku?","options":["TBS","GYD","EVN","IST"],"correct":1,"explanation":"GYD is the IATA code for Heydar Aliyev International Airport, Baku."},
+{"question":"What is the IATA code for Tbilisi?","options":["EVN","TBS","GYD","TAS"],"correct":1,"explanation":"TBS is the IATA code for Tbilisi International Airport."},
+{"question":"What is the IATA code for Yerevan?","options":["EVN","TBS","ALA","FRU"],"correct":0,"explanation":"EVN is the IATA code for Zvartnots International Airport, Yerevan."}
 ];
 
- let currentQuestion = 0;
+    let currentQuestion = 0;
 let score = 0;
 let timer;
 let timeLeft = 60;
