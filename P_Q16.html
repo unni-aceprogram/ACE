@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+<meta charset="UTF-8" />
+<title>ACE EXAM 2   | QUIZ 4</title>
+<style>
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+color: #23395d;
+min-height: 100vh;
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 96%;
+max-width: 500px;
+margin: 40px auto 0 auto;
+background: #fff;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+padding: 32px 24px;
+position: relative;
+}
+
+h1 {
+font-size: 2.2em;
+color: #207bfa;
+font-weight: 700;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
+
+#progress-container {
+width: 100%;
+background: #e9ecef;
+height: 12px;
+border-radius: 6px;
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+#progress-bar {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+transition: width 0.4s ease;
+}
+
+#question-counter {
+font-size: 1.1em;
+font-weight: 600;
+color: #525252;
+margin: 10px 0 18px 0;
+text-align: center;
+}
+
+.card {
+background: #f9f9fb;
+padding: 28px 24px;
+border-radius: 16px;
+box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+text-align: left;
+}
+
+.options label {
+display: block;
+background: #f5fafd;
+font-size: 1em;
+margin: 10px 0;
+cursor: pointer;
+padding: 11px 16px;
+border-radius: 8px;
+border: 2px solid #e3f6f5;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.options input {
+margin-right: 11px;
+}
+
+.btn {
+display: inline-block;
+margin: 18px 10px 0 0;
+padding: 12px 30px;
+font-size: 1.15em;
+font-weight: 600;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+color: #fff;
+box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct {
+background: #e6ffed !important;
+border-color: #43cea2 !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.wrong {
+background: #ffebef !important;
+border-color: #fa205c !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.disabled-option {
+opacity: 0.6;
+pointer-events: none;
+}
+
+.timer {
+font-weight: bold;
+margin-bottom: 15px;
+font-size: 1.08em;
+color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+margin-top: 18px;
+padding: 12px 16px;
+background: #f6f3e9;
+border-left: 5px solid #43cea2;
+border-radius: 0 8px 8px 0;
+font-size: 0.99em;
+color: #525252;
+}
+
+#alert {
+display: none;
+font-size: 1.07em;
+color: #fa205c;
+letter-spacing: 0.5px;
+margin: 6px 0;
+font-weight: 700;
+text-align: center;
+}
+
+#sound-toggle {
+margin: 18px 0;
+cursor: pointer;
+font-size: 1em;
+color: #43cea2;
+font-weight: 600;
+}
+
+#score-container {
+margin-top: 22px;
+text-align: center;
+}
+
+.highlight-latest-result {
+font-size: 1.33em;
+font-weight: 800;
+letter-spacing: 1px;
+margin-bottom: 18px;
+color: #207bfa;
+}
+
+#time-up-message {
+font-size: 1.1em;
+color: #fa205c;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ACE EXAM 2   | QUIZ 4</h1>
+<div id="sound-toggle" onclick="toggleSound()">
+<span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+</div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="question-counter">Questions: 50</div>
+<div id="alert">⏰ Hurry! Time is almost up!</div>
+<div id="quiz-container"></div>
+<div id="score-container"></div>
+<button id="start-button" class="btn">Start Quiz</button>
+</div>
+ <audio id="correct-sound" src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/audio/B4CWlP_CIkc1kju2x/audioblocks-feedback-correct-07_HiQUhCpDv_WM.mp3" preload="auto"></audio>
+<audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const quizData = [
+
+
+  {
+    "question": "A passenger requests SHFT at exactly D-75:01 (system clock). What is correct?",
+    "options": [
+      "Process SHFT",
+      "Convert to NMOVE",
+      "Deny as window crossed",
+      "Escalate to Duty Manager"
+    ],
+    "correct": 2,
+    "explanation": "SHFT is permitted only up to D-75 minutes. Even slight crossing of window makes it ineligible."
+  },
+  {
+    "question": "Customer has 1 bag of 18kg and 1 bag of 4kg. What applies?",
+    "options": [
+      "No charges",
+      "ABHF once",
+      "Excess baggage only",
+      "ABHF + excess baggage"
+    ],
+    "correct": 3,
+    "explanation": "Second piece attracts ABHF; total 22kg exceeds 15kg FBA, so excess baggage applies."
+  },
+  {
+    "question": "Double Seat booked but second seat auto-assigned non-adjacent due to aircraft change. What must staff do?",
+    "options": [
+      "Ignore as system assigned",
+      "Cancel second seat",
+      "Reallocate adjacent seat",
+      "Refund seat fee only"
+    ],
+    "correct": 2,
+    "explanation": "Double seat must ensure adjacent seating for comfort."
+  },
+  {
+    "question": "If corporate passenger has CPTR SSR but booking made via OTA without entitlement, what applies?",
+    "options": [
+      "Honor corporate benefit",
+      "Ignore CPTR SSR",
+      "Verify eligibility before applying benefit",
+      "Charge penalty"
+    ],
+    "correct": 2,
+    "explanation": "Eligibility must be verified even if SSR present."
+  },
+  {
+    "question": "Passenger booked NMOVE Option 1 and reaches at D-74. What happens?",
+    "options": [
+      "Seat confirmed automatically",
+      "Seat confirmation attempted at D-75; now unavailable",
+      "NMOVE invalid",
+      "Refund NMOVE fee"
+    ],
+    "correct": 1,
+    "explanation": "Seat confirmation attempted at D-75; if unavailable, original booking remains."
+  },
+  {
+    "question": "EEA passenger initially eligible but now intoxicated at boarding. Action?",
+    "options": [
+      "Allow since briefed earlier",
+      "Reassign seat",
+      "Charge seat change fee",
+      "Cancel ticket"
+    ],
+    "correct": 1,
+    "explanation": "Eligibility must be ensured till boarding; intoxicated passenger cannot occupy EEA."
+  },
+  {
+    "question": "Passenger carries 3 bags totaling 14kg and is BLU1 tier. What applies?",
+    "options": [
+      "No charge due to tier",
+      "ABHF twice",
+      "Excess baggage only",
+      "Bulk charge"
+    ],
+    "correct": 1,
+    "explanation": "Additional piece handling fee applies irrespective of tier."
+  },
+  {
+    "question": "Stretch passenger downgraded due to equipment change. What must be ensured?",
+    "options": [
+      "Seat reassignment only",
+      "Refund fare difference",
+      "Apply NMOVE",
+      "Provide voucher only"
+    ],
+    "correct": 1,
+    "explanation": "Fare difference must be refunded in case of downgrade."
+  },
+  {
+    "question": "A 15-year-old traveling alone (not UMNR) requests EEA. What applies?",
+    "options": [
+      "Allowed after briefing",
+      "Not allowed without guardian",
+      "Allowed only in Stretch",
+      "Charge indemnity"
+    ],
+    "correct": 0,
+    "explanation": "Minimum age 15; if not UMNR and medically fit, allowed."
+  },
+  {
+    "question": "Under SHFT, if requested flight is lower fare, difference:",
+    "options": [
+      "Refunded",
+      "Adjusted to credit shell",
+      "Not refunded",
+      "Converted to BluChip miles"
+    ],
+    "correct": 2,
+    "explanation": "Lower fare difference not refunded under SHFT."
+  },
+  {
+    "question": "If WCHC passenger insists on EEA due to leg space, what applies?",
+    "options": [
+      "Allow with indemnity",
+      "Deny due to safety restriction",
+      "Charge premium",
+      "Escalate to Captain"
+    ],
+    "correct": 1,
+    "explanation": "WCHC passengers cannot occupy emergency exit seats."
+  },
+  {
+    "question": "Passenger presents 4 SPEQ items pre-booked as 3. What action?",
+    "options": [
+      "Allow all without charge",
+      "Charge airport SPEQ for extra piece",
+      "Split weight across tags",
+      "Refuse entire baggage"
+    ],
+    "correct": 1,
+    "explanation": "Only 3 allowed pre-booked; extra charged at airport rate."
+  },
+  {
+    "question": "If Digi Yatra QR validated but boarding pass not generated, next step?",
+    "options": [
+      "Deny entry",
+      "Manually issue boarding pass in SkySpeed",
+      "Cancel PNR",
+      "Charge reprint fee"
+    ],
+    "correct": 1,
+    "explanation": "Boarding pass must be issued through system."
+  },
+  {
+    "question": "Under NMOVE Option 2, if passenger no-shows new flight, what applies?",
+    "options": [
+      "Refund issued",
+      "Original booking restored",
+      "Fare forfeited",
+      "Voucher issued"
+    ],
+    "correct": 2,
+    "explanation": "No-show after NMOVE leads to forfeiture."
+  },
+  {
+    "question": "Passenger carries LCD TV 42 inches weighing 12kg. What applies?",
+    "options": [
+      "Included in FBA",
+      "TV handling fee only",
+      "TV handling fee + excess if applicable",
+      "Refuse carriage"
+    ],
+    "correct": 2,
+    "explanation": "Above 40 inches requires handling fee; excess if total exceeds FBA."
+  },
+  {
+    "question": "Maximum WCHC allowed on A321:",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "6"
+    ],
+    "correct": 2,
+    "explanation": "A321 allows maximum 4 WCHC passengers."
+  },
+  {
+    "question": "If BluChip member redeems miles but cancels ticket, what happens to miles?",
+    "options": [
+      "Refunded automatically",
+      "Forfeited",
+      "Recredited as per policy timeline",
+      "Converted to voucher"
+    ],
+    "correct": 2,
+    "explanation": "Miles are recredited subject to policy timelines."
+  },
+  {
+    "question": "Double Seat second passenger status appears blank. Operational risk?",
+    "options": [
+      "System glitch",
+      "Seat may be released if not monitored",
+      "Automatic boarding",
+      "Fare duplication"
+    ],
+    "correct": 1,
+    "explanation": "If not handled properly, seat could be reassigned."
+  },
+  {
+    "question": "Under SHFT, corporate rate applicable only if:",
+    "options": [
+      "Corporate ID shown",
+      "CPTR SSR present",
+      "Manager approval",
+      "BluChip linked"
+    ],
+    "correct": 1,
+    "explanation": "Corporate SHFT fee applies only when CPTR SSR exists."
+  },
+  {
+    "question": "Emergency exit block must not be fully vacant because:",
+    "options": [
+      "Revenue loss",
+      "Regulatory violation",
+      "Safety compliance requires at least one occupant",
+      "Cabin crew instruction"
+    ],
+    "correct": 2,
+    "explanation": "At least one eligible occupant required for safety compliance."
+  },
+  {
+    "question": "Passenger arrives D-60 requesting SHFT. Correct action?",
+    "options": [
+      "Process SHFT",
+      "Deny; window closed",
+      "Convert to NMOVE automatically",
+      "Allow without fee"
+    ],
+    "correct": 1,
+    "explanation": "SHFT allowed only until D-75."
+  },
+  {
+    "question": "If excess baggage collected but weight not updated in F2, risk is:",
+    "options": [
+      "No impact",
+      "Financial mismatch and audit issue",
+      "Automatic refund",
+      "Seat reassignment"
+    ],
+    "correct": 1,
+    "explanation": "Operational and audit discrepancy may arise."
+  },
+  {
+    "question": "If passenger eligible for Jump Seat but aircraft is ATR, what applies?",
+    "options": [
+      "Allowed",
+      "Not available on ATR",
+      "Captain discretion",
+      "Charge premium"
+    ],
+    "correct": 1,
+    "explanation": "Jump seats available only on A320/A321."
+  },
+  {
+    "question": "Passenger with 2 bags totaling 15kg. What applies?",
+    "options": [
+      "No charges",
+      "ABHF once",
+      "Excess baggage",
+      "Bulk fee"
+    ],
+    "correct": 1,
+    "explanation": "Additional piece attracts ABHF even if within weight."
+  },
+  {
+    "question": "If SHFT processed and new flight delayed 3 hours, refund eligibility?",
+    "options": [
+      "SHFT fee refunded",
+      "Fare difference refunded",
+      "As per disruption policy only",
+      "Automatic NMOVE"
+    ],
+    "correct": 2,
+    "explanation": "Handled under flight disruption policy, not SHFT refund."
+  },
+  
+
+  {
+    "question": "Passenger processed SHFT at D-76 and immediately requests NMOVE for another later flight. What applies?",
+    "options": [
+      "Allow NMOVE without restriction",
+      "Deny as SHFT already exercised",
+      "Allow only with full change fee + fare difference",
+      "Restore original booking"
+    ],
+    "correct": 2,
+    "explanation": "Once SHFT is exercised, further changes require standard change fee and fare difference."
+  },
+  {
+    "question": "Corporate passenger with CPTR SSR requests SHFT but flight sector is international. What applies?",
+    "options": [
+      "Apply corporate SHFT fee",
+      "SHFT not applicable on international",
+      "Charge NMOVE",
+      "Waive fee"
+    ],
+    "correct": 1,
+    "explanation": "SHFT is applicable only on domestic sectors."
+  },
+  {
+    "question": "Passenger booked Double Seat and carries 2 bags totaling 20kg. What applies?",
+    "options": [
+      "No charge due to extra seat",
+      "Excess baggage only",
+      "ABHF once + excess baggage",
+      "ABHF twice"
+    ],
+    "correct": 2,
+    "explanation": "Second bag attracts ABHF and total exceeds FBA, so excess applies."
+  },
+  {
+    "question": "Under NMOVE Option 2, if selected flight becomes full before processing completes, what happens?",
+    "options": [
+      "Seat auto-blocked",
+      "Original booking retained",
+      "System error override",
+      "Escalate for manual confirmation"
+    ],
+    "correct": 1,
+    "explanation": "If confirmation fails, original booking remains active."
+  },
+  {
+    "question": "Passenger assigned EEA but later declares pregnancy. What action?",
+    "options": [
+      "Retain seat",
+      "Reassign from EEA immediately",
+      "Charge seat change fee",
+      "Require indemnity form"
+    ],
+    "correct": 1,
+    "explanation": "Pregnant passengers cannot occupy emergency exit seats."
+  },
+  {
+    "question": "BluChip BLU2 passenger carries 3 bags totaling 15kg. What applies?",
+    "options": [
+      "No charge",
+      "ABHF twice",
+      "Excess baggage only",
+      "Bulk handling fee"
+    ],
+    "correct": 1,
+    "explanation": "Two additional pieces attract ABHF regardless of weight."
+  },
+  {
+    "question": "If EXST passenger fails to board but check-in completed, system status likely reflects:",
+    "options": [
+      "HX",
+      "NS",
+      "FF",
+      "HK"
+    ],
+    "correct": 2,
+    "explanation": "EXST reflects FF when processed through check-in."
+  },
+  {
+    "question": "Passenger has CPTR SSR but no CPML. What is correct interpretation?",
+    "options": [
+      "Meal entitlement included",
+      "Corporate entitlement without meal",
+      "Invalid corporate booking",
+      "Student fare"
+    ],
+    "correct": 1,
+    "explanation": "CPTR indicates corporate; CPML indicates meal entitlement separately."
+  },
+  {
+    "question": "If SHFT applied and customer wants to revert to original flight, what applies?",
+    "options": [
+      "Free reversal",
+      "Apply NMOVE",
+      "Treat as fresh change with applicable charges",
+      "Automatic restoration"
+    ],
+    "correct": 2,
+    "explanation": "Reversal treated as new change with applicable fees."
+  },
+  {
+    "question": "A 15-year-old UMNR becomes 16 on travel day. Can EEA be assigned?",
+    "options": [
+      "Yes automatically",
+      "No due to UMNR category",
+      "Yes with indemnity",
+      "Captain approval required"
+    ],
+    "correct": 1,
+    "explanation": "UMNR category restriction overrides age eligibility."
+  },
+  {
+    "question": "Passenger with 1 bag of 16kg. What applies?",
+    "options": [
+      "ABHF",
+      "Excess baggage only",
+      "No charge",
+      "Bulk fee"
+    ],
+    "correct": 1,
+    "explanation": "Weight exceeds 15kg FBA; excess baggage applies."
+  },
+  {
+    "question": "Under SHFT, if fare difference significantly higher and passenger declines to pay, what happens?",
+    "options": [
+      "Process SHFT anyway",
+      "Waive difference",
+      "Deny SHFT",
+      "Convert to NMOVE"
+    ],
+    "correct": 2,
+    "explanation": "Fare difference mandatory; refusal results in denial."
+  },
+  {
+    "question": "If baggage weight updated in F2 but no F9 entry created, what risk?",
+    "options": [
+      "Revenue loss",
+      "Safety hazard",
+      "Seat reassignment",
+      "Automatic cancellation"
+    ],
+    "correct": 0,
+    "explanation": "Failure to collect fee results in revenue loss and audit issue."
+  },
+  {
+    "question": "Jump Seat requested on A320 but Captain unavailable to approve. What applies?",
+    "options": [
+      "Allow boarding",
+      "Deny until Captain approval",
+      "Manager approval sufficient",
+      "Cabin crew approval sufficient"
+    ],
+    "correct": 1,
+    "explanation": "Captain approval mandatory."
+  },
+  {
+    "question": "Passenger booked NMOVE Option 1 and does not show at D-75 confirmation window. What happens?",
+    "options": [
+      "Seat auto-confirmed",
+      "Original flight retained",
+      "NMOVE refunded",
+      "Booking cancelled"
+    ],
+    "correct": 1,
+    "explanation": "If no confirmation possible, original flight continues."
+  },
+  {
+    "question": "SPEQ piece weighs 33kg. What action?",
+    "options": [
+      "Accept with excess fee",
+      "Split weight across tags",
+      "Reject as single piece exceeds limit",
+      "Charge double SPEQ"
+    ],
+    "correct": 2,
+    "explanation": "Single piece must not exceed 32kg."
+  },
+  {
+    "question": "If Digi Yatra QR validated but PNR shows different flight date, what must staff do?",
+    "options": [
+      "Allow entry",
+      "Verify manually and deny incorrect date",
+      "Cancel booking",
+      "Charge correction fee"
+    ],
+    "correct": 1,
+    "explanation": "Manual verification required; QR must match correct travel details."
+  },
+  {
+    "question": "BluChip tier review considers which duration?",
+    "options": [
+      "Last 3 months",
+      "Last 6 months",
+      "Last 12 months",
+      "Lifetime spend"
+    ],
+    "correct": 2,
+    "explanation": "Tier reviewed based on 12-month activity."
+  },
+  {
+    "question": "Passenger arrives D-74 and requests SHFT citing system clock difference of 30 seconds. What applies?",
+    "options": [
+      "Allow due to grace",
+      "Deny strictly as per system time",
+      "Escalate for override",
+      "Convert to NMOVE"
+    ],
+    "correct": 1,
+    "explanation": "System time governs eligibility strictly."
+  },
+  {
+    "question": "Double Seat booking on ATR – primary limitation?",
+    "options": [
+      "Baggage limit",
+      "Infant restriction",
+      "Adjacent seat feasibility",
+      "BluChip exclusion"
+    ],
+    "correct": 2,
+    "explanation": "ATR seating layout may restrict adjacency options."
+  },
+  {
+    "question": "If WCHC exceeds aircraft limit but all confirmed earlier, what principle applies?",
+    "options": [
+      "First come first serve",
+      "Safety limitation overrides confirmation",
+      "Allow with indemnity",
+      "Upgrade aircraft"
+    ],
+    "correct": 1,
+    "explanation": "Aircraft safety limitation overrides revenue confirmation."
+  },
+  {
+    "question": "Passenger with 2 bags totaling 15kg but second bag oversized dimensionally. What applies?",
+    "options": [
+      "No charge",
+      "ABHF only",
+      "Bulk/oversize charge applicable",
+      "Excess baggage"
+    ],
+    "correct": 2,
+    "explanation": "Oversized dimensions attract applicable handling charge."
+  },
+  {
+    "question": "If SHFT processed and new flight cancelled due weather, refund eligibility governed by:",
+    "options": [
+      "SHFT policy",
+      "NMOVE policy",
+      "Disruption policy",
+      "Corporate agreement"
+    ],
+    "correct": 2,
+    "explanation": "Handled under flight disruption policy."
+  },
+  {
+    "question": "Passenger eligible for EEA refuses briefing but signs indemnity. What applies?",
+    "options": [
+      "Allow seat",
+      "Deny EEA seat",
+      "Charge fee",
+      "Escalate to Captain"
+    ],
+    "correct": 1,
+    "explanation": "Briefing acceptance mandatory; indemnity alone insufficient."
+  },
+  {
+    "question": "Under NMOVE Option 2, confirmation occurs:",
+    "options": [
+      "At D-75",
+      "Immediately upon processing",
+      "After boarding starts",
+      "Next calendar day"
+    ],
+    "correct": 1,
+    "explanation": "Option 2 provides immediate confirmation."
+  }
+
+
+    ];
+    let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let soundOn = true;
+let soundEnabled = true;
+const userAnswers = [];
+const allResults = [];
+
+const quizContainer = document.getElementById("quiz-container");
+const scoreContainer = document.getElementById("score-container");
+const progressBar = document.getElementById("progress-bar");
+const questionCounter = document.getElementById("question-counter");
+const alertBox = document.getElementById("alert");
+const startButton = document.getElementById("start-button");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
+
+function startQuiz() {
+currentQuestion = 0;
+score = 0;
+userAnswers.length = 0;
+quizStartTime = new Date(); 
+startButton.style.display = "none";
+scoreContainer.innerHTML = "";
+showQuestion();
+}
+
+function showQuestion() {
+clearInterval(timer);
+timeLeft = 60;
+updateTimer();
+alertBox.style.display = "none";
+const questionData = quizData[currentQuestion];
+quizContainer.innerHTML = `
+<div class="card">
+<div class="timer" id="timer">Time left: ${timeLeft}s</div>
+<h2>${questionData.question}</h2>
+<div class="options">
+${questionData.options.map((opt, i) =>
+`<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+).join("")}
+</div>
+<div id="warning-message"></div>
+<button class="btn" onclick="submitAnswer()">Submit</button>
+</div>
+`;
+questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
+timer = setInterval(() => {
+timeLeft--;
+updateTimer();
+if (timeLeft <= 5) alertBox.style.display = "block";
+if (timeLeft === 0) submitAnswer(true);
+}, 1000);
+}
+
+function updateTimer() {
+const timerEl = document.getElementById("timer");
+if (!timerEl) return;
+timerEl.textContent = `Time left: ${timeLeft}s`;
+timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+}
+
+function submitAnswer(auto = false) {
+const selected = document.querySelector('input[name="answer"]:checked');
+const questionData = quizData[currentQuestion];
+
+if (!selected && !auto) {
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+return;
+}
+
+clearInterval(timer);
+alertBox.style.display = "none";
+
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "";
+
+let isCorrect = false;
+
+if (selected) {
+const answer = parseInt(selected.value);
+userAnswers[currentQuestion] = answer;
+if (answer === questionData.correct) {
+score++;
+isCorrect = true;
+}
+} else {
+userAnswers[currentQuestion] = null;
+}
+
+const optionsLabels = document.querySelectorAll(".options label");
+optionsLabels.forEach((label, i) => {
+label.classList.add("disabled");
+const input = label.querySelector('input');
+if (input) input.disabled = true;
+
+if (i === questionData.correct) label.classList.add("correct");
+else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
+});
+
+const submitBtn = quizContainer.querySelector("button.btn");
+if (submitBtn) submitBtn.disabled = true;
+
+quizContainer.innerHTML += `
+<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+<button class="btn" onclick="nextQuestion()">Next</button>
+`;
+
+setTimeout(() => {
+showResult(isCorrect);
+}, 150);
+
+progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+allResults[currentQuestion] = {
+question: questionData.question.trim(),
+selected: selected ? parseInt(selected.value) : null,
+correct: questionData.correct,
+options: questionData.options.map(o => o.trim()),
+explanation: questionData.explanation.trim(),
+};
+}
+
+function showResult(correct) {
+const sound = correct ? correctSound : wrongSound;
+sound.currentTime = 0;
+if (soundEnabled) sound.play();
+
+if (correct) {
+confetti();
+setTimeout(() => {
+sound.pause();
+sound.currentTime = 0;
+}, 2400);
+}
+}
+
+function nextQuestion() {
+currentQuestion++;
+if (currentQuestion >= quizData.length) {
+showScore();
+} else {
+showQuestion();
+}
+}
+
+function showScore() {
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - quizStartTime) / 1000); 
+const percentage = Math.round((score / quizData.length) * 100);
+const passed = percentage >= 90;
+
+quizContainer.innerHTML = "";
+questionCounter.textContent = `Quiz Completed!`;
+progressBar.style.width = "100%";
+
+let resultMessage = `
+<div class="highlight-latest-result">
+You scored ${score} out of ${quizData.length} (${percentage}%)
+<br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+${passed ? "✅ Passed!" : "❌ Not Passed"}
+</span>
+</div>
+`;
+
+let buttonsHTML = `
+<div class="button-group">
+<button class="btn" onclick="startQuiz()">Restart Quiz</button>
+<button class="btn" onclick="toggleReview()">Review Answers</button>
+<button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+<button class="btn" onclick="goHome()">Homepage</button>
+</div>
+<div id="review-section"></div>
+`;
+
+scoreContainer.innerHTML = resultMessage + buttonsHTML;
+}
+
+function toggleReview() {
+const reviewSection = document.getElementById("review-section");
+if (reviewSection.innerHTML.trim() !== "") {
+reviewSection.innerHTML = "";
+} else {
+let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+allResults.forEach((result, i) => {
+const userAnswerIndex = result.selected;
+const correctIndex = result.correct;
+resultsHTML += `
+<div class="card" style="margin-bottom:15px; text-align:left;">
+<strong>Q${i + 1}: ${result.question}</strong><br>
+Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+Correct answer: ${result.options[correctIndex]}<br>
+<div class="explanation">${result.explanation}</div>
+</div>
+`;
+});
+reviewSection.innerHTML = resultsHTML;
+}
+}
+
+function downloadResultsPDF(score, total, timeTaken) {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const now = new Date();
+const formattedDate = now.toLocaleString();
+const percentage = Math.round((score / total) * 100) + "%";
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.text("ACE Practice Set Results", 20, 20);
+
+const headers = ["Date", "Score", "Time Taken"];
+const data = [[ formattedDate, `${score} / ${total} (${percentage})`, `${timeTaken} seconds` ]];
+
+const startX = 20;
+const startY = 30;
+const colWidths = [60, 60, 60];
+const rowHeight = 10;
+
+headers.forEach((header, i) => {
+doc.setFillColor(240, 240, 240);
+doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+doc.setTextColor(0);
+doc.setFontSize(12);
+doc.text(header.trim(), startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+});
+
+data[0].forEach((text, i) => {
+const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+const y = startY + rowHeight;
+doc.rect(x, y, colWidths[i], rowHeight); 
+doc.text(text.trim(), x + 2, y + 7);
+});
+
+doc.save("quiz_results.pdf");
+}
+
+function goHome() {
+window.location.href = "index.html";
+}
+function toggleSound() {
+soundOn = !soundOn;
+soundEnabled = soundOn;
+const icon = document.getElementById("sound-icon");
+const text = document.getElementById("sound-text");
+if (soundOn) {
+icon.textContent = "🔊";
+text.textContent = "Sound ON";
+} else {
+icon.textContent = "🔇";
+text.textContent = "Sound OFF";
+}
+}
+
+startButton.addEventListener("click", startQuiz);
+</script>
+</body>
+</html>

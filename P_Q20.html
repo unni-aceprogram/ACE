@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+<meta charset="UTF-8" />
+<title>SITUATIONAL VIVA | Quiz 2</title>
+<style>
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+color: #23395d;
+min-height: 100vh;
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 96%;
+max-width: 500px;
+margin: 40px auto 0 auto;
+background: #fff;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+padding: 32px 24px;
+position: relative;
+}
+
+h1 {
+font-size: 2.2em;
+color: #207bfa;
+font-weight: 700;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
+
+#progress-container {
+width: 100%;
+background: #e9ecef;
+height: 12px;
+border-radius: 6px;
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+#progress-bar {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+transition: width 0.4s ease;
+}
+
+#question-counter {
+font-size: 1.1em;
+font-weight: 600;
+color: #525252;
+margin: 10px 0 18px 0;
+text-align: center;
+}
+
+.card {
+background: #f9f9fb;
+padding: 28px 24px;
+border-radius: 16px;
+box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+text-align: left;
+}
+
+.options label {
+display: block;
+background: #f5fafd;
+font-size: 1em;
+margin: 10px 0;
+cursor: pointer;
+padding: 11px 16px;
+border-radius: 8px;
+border: 2px solid #e3f6f5;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.options input {
+margin-right: 11px;
+}
+
+.btn {
+display: inline-block;
+margin: 18px 10px 0 0;
+padding: 12px 30px;
+font-size: 1.15em;
+font-weight: 600;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+color: #fff;
+box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct {
+background: #e6ffed !important;
+border-color: #43cea2 !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.wrong {
+background: #ffebef !important;
+border-color: #fa205c !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.disabled-option {
+opacity: 0.6;
+pointer-events: none;
+}
+
+.timer {
+font-weight: bold;
+margin-bottom: 15px;
+font-size: 1.08em;
+color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+margin-top: 18px;
+padding: 12px 16px;
+background: #f6f3e9;
+border-left: 5px solid #43cea2;
+border-radius: 0 8px 8px 0;
+font-size: 0.99em;
+color: #525252;
+}
+
+#alert {
+display: none;
+font-size: 1.07em;
+color: #fa205c;
+letter-spacing: 0.5px;
+margin: 6px 0;
+font-weight: 700;
+text-align: center;
+}
+
+#sound-toggle {
+margin: 18px 0;
+cursor: pointer;
+font-size: 1em;
+color: #43cea2;
+font-weight: 600;
+}
+
+#score-container {
+margin-top: 22px;
+text-align: center;
+}
+
+.highlight-latest-result {
+font-size: 1.33em;
+font-weight: 800;
+letter-spacing: 1px;
+margin-bottom: 18px;
+color: #207bfa;
+}
+
+#time-up-message {
+font-size: 1.1em;
+color: #fa205c;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>SITUATIONAL VIVA | Quiz 2</h1>
+<div id="sound-toggle" onclick="toggleSound()">
+<span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+</div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="question-counter">Questions: 50</div>
+<div id="alert">⏰ Hurry! Time is almost up!</div>
+<div id="quiz-container"></div>
+<div id="score-container"></div>
+<button id="start-button" class="btn">Start Quiz</button>
+</div>
+ <audio id="correct-sound" src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/audio/B4CWlP_CIkc1kju2x/audioblocks-feedback-correct-07_HiQUhCpDv_WM.mp3" preload="auto"></audio>
+<audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const quizData = [
+
+
+  {
+"question": "During peak departure, you are processing a GoNow passenger whose PNR shows an NMOVE status due to aircraft change from A321 to A320. The system prevents seat confirmation at kiosk. What is the most appropriate operational action using SkySpeed?",
+"options": [
+"Use F6 to manually override and confirm the previous seat without validation",
+"Access seat map via F3, clear NMOVE status, and reassign seat within new configuration before validation",
+"Advise passenger to proceed to gate as seat will auto-assign at boarding",
+"Cancel check-in and recreate PNR"
+],
+"correct": 1,
+"explanation": "NMOVE indicates seat invalidation due to aircraft change. The agent must access seat map via F3, remove invalid seat, and reassign within new layout. Manual override without validation is not compliant."
+},
+
+{
+"question": "At gate closure, 3 passengers are checked-in but not present. BRS shows bags loaded. What must be executed?",
+"options": [
+"Depart to protect OTP",
+"Process gate no-show and initiate baggage offload before final load sheet confirmation",
+"Mark boarded",
+"Delay until passengers arrive"
+],
+"correct": 1,
+"explanation": "Unboarded passengers with loaded baggage require offload to maintain security compliance."
+},
+{
+"question": "A passenger holding EXST due to medical size requirement is separated from extra seat after SHFT reaccommodation. What must agent verify?",
+"options": [
+"Nothing; EXST automatically protected",
+"Ensure adjacent seating maintained and SSR EXST properly linked after reaccommodation",
+"Refund EXST seat",
+"Assign aisle randomly"
+],
+"correct": 1,
+"explanation": "EXST requires adjacency protection; system reaccommodation must preserve linked seat allocation."
+},
+{
+"question": "A passenger presents for boarding but was processed under SHFT (schedule shift) and appears checked-in without baggage. Gate scanner rejects boarding. What is the correct system logic to verify before allowing boarding?",
+"options": [
+"Ignore system warning and manually tick on manifest",
+"Verify active segment status and ensure coupon is OPEN and not ARPT controlled via F9 validation",
+"Issue a new boarding pass without system correction",
+"Remove passenger from flight"
+],
+"correct": 1,
+"explanation": "SHFT may create passive or ARPT-controlled segments. The agent must validate active coupon and boarding status via F9 before clearance."
+},
+{
+"question": "During IROP due to fog diversion, 12 transfer passengers require through check-in continuation. Their bags are already loaded. What is the best operational decision?",
+"options": [
+"Offload all baggage until new boarding pass issued",
+"Maintain baggage through check-in status and revalidate onward segment before reboarding",
+"Cancel onward segment and ask passenger to collect baggage",
+"Ignore onward segment until arrival"
+],
+"correct": 1,
+"explanation": "In IROP, through-checked baggage remains unless regulatory constraints apply. Onward segment must be revalidated in system before boarding."
+},
+{
+"question": "An overbooked flight shows 4 seats oversold. Two BlueChip Platinum members arrive late but within gate closure time. What is correct denied boarding prioritization?",
+"options": [
+"Deny boarding to BlueChip members as they arrived late",
+"Prioritize BlueChip Platinum over non-status confirmed passengers",
+"First come first serve regardless of status",
+"Deny boarding to GoNow passengers first"
+],
+"correct": 1,
+"explanation": "Commercial policy prioritizes high-tier loyalty members over non-status passengers in involuntary denied boarding scenarios."
+},
+{
+"question": "While validating TIMATIC, a passenger holds E-visa printout for destination requiring APIS submission. APIS status shows incomplete. What must be done?",
+"options": [
+"Board passenger since visa copy is available",
+"Complete APIS data entry and confirm system transmission before boarding pass issuance",
+"Send passenger to immigration desk",
+"Ignore APIS as visa is valid"
+],
+"correct": 1,
+"explanation": "APIS compliance is mandatory. Boarding pass cannot be issued without complete APIS transmission confirmation."
+},
+{
+"question": "A DEPA passenger escorted by authorities is listed but NOTOC has not been updated. Aircraft is ready for departure. What is the correct procedure?",
+"options": [
+"Board DEPA and inform captain verbally",
+"Delay departure until NOTOC reflects DEPA presence and commander acknowledgement",
+"Seat DEPA in any vacant rear seat",
+"Remove DEPA from flight"
+],
+"correct": 1,
+"explanation": "DEPA presence must be recorded in NOTOC and acknowledged by commander prior to departure for safety compliance."
+},
+{
+"question": "A passenger with EXST (extra seat) SSR reports seat mismatch after aircraft downgrade. What is correct handling?",
+"options": [
+"Cancel EXST and refund later",
+"Reprotect adjacent seat pair and ensure system reflects EXST SSR on both seats",
+"Ask passenger to adjust without system update",
+"Upgrade to business automatically"
+],
+"correct": 1,
+"explanation": "EXST requires adjacent seat blocking and SSR alignment after equipment change. System must reflect both seats."
+},
+{
+"question": "During baggage reconciliation, BRS shows one loaded bag without boarded passenger. Gate closure is 3 minutes away. What is the correct action?",
+"options": [
+"Depart flight to maintain OTP",
+"Initiate offload process for unmatched baggage before pushback",
+"Mark passenger as boarded",
+"Inform ramp to ignore mismatch"
+],
+"correct": 1,
+"explanation": "BRS compliance requires positive passenger-bag match. Unmatched baggage must be offloaded before departure."
+},
+{
+"question": "A MEDA passenger presents fit-to-fly certificate but no airline clearance SSR. What is correct action?",
+"options": [
+"Board as certificate is sufficient",
+"Ensure MEDA clearance SSR approved in PNR before accepting for travel",
+"Seat near exit row",
+"Convert to WCHR"
+],
+"correct": 1,
+"explanation": "MEDA requires prior airline medical clearance SSR confirmation. Certificate alone is insufficient."
+},
+{
+"question": "During gate boarding, system shows ABHF indicator on two PNRs. What does this require?",
+"options": [
+"Ignore as it auto-clears",
+"Verify baggage hold file alignment and ensure correct tagging before boarding",
+"Cancel check-in",
+"Transfer to standby list"
+],
+"correct": 1,
+"explanation": "ABHF indicates baggage hold file issue. Tag alignment must be verified before passenger boards."
+},
+{
+"question": "A codeshare passenger checked in on partner airline arrives for boarding without system visibility. What should be done?",
+"options": [
+"Refuse boarding",
+"Retrieve PNR via codeshare access and confirm boarding status before manual reconciliation",
+"Issue new ticket",
+"Ignore and board manually"
+],
+"correct": 1,
+"explanation": "Codeshare passengers must be validated in shared system access before boarding."
+},
+{
+"question": "Gate no-show count affects load sheet finalization. When should gate no-show be processed in SkySpeed?",
+"options": [
+"After aircraft departure",
+"Immediately after gate closure and reconciliation before final load sheet",
+"Before boarding starts",
+"Only next day"
+],
+"correct": 1,
+"explanation": "Gate no-show must be processed prior to final load sheet to ensure weight and balance accuracy."
+},
+{
+"question": "An INAD passenger arrives with return segment booked next day. Immigration refuses entry. What is correct handling?",
+"options": [
+"Cancel onward segment",
+"Revalidate return on earliest available flight and coordinate with security as INAD",
+"Ask passenger to arrange own return",
+"Treat as normal transfer"
+],
+"correct": 1,
+"explanation": "INAD must be returned at earliest opportunity under carrier responsibility with coordination."
+},
+{
+"question": "A passenger insists on jump seat travel citing EEA eligibility but is off-duty crew of another airline. What is correct decision?",
+"options": [
+"Allow as crew",
+"Verify eligibility under company EEA policy and commander approval before allocation",
+"Automatically deny",
+"Charge fare difference"
+],
+"correct": 1,
+"explanation": "Jump seat/EEA requires eligibility validation and commander approval."
+},
+{
+"question": "GoNow passenger fails biometric validation but boarding pass printed. What must agent do?",
+"options": [
+"Ignore biometric failure",
+"Revalidate ID manually and update system override with supervisor authorization",
+"Cancel booking",
+"Send passenger home"
+],
+"correct": 1,
+"explanation": "Biometric failure requires manual ID validation and documented override authorization."
+},
+{
+"question": "During limited release baggage acceptance, passenger signs LRT but bag is fragile and overweight. What applies?",
+"options": [
+"Reject baggage",
+"Accept under limited release noting both conditions in system remarks",
+"Ignore weight",
+"Waive charges"
+],
+"correct": 1,
+"explanation": "Limited release must document all exceptions including fragility and overweight condition."
+},
+{
+"question": "An SSR BlueChip Gold passenger is downgraded due to aircraft change. What compensation logic applies?",
+"options": [
+"No compensation",
+"Apply downgrade compensation as per commercial policy and re-seat priority",
+"Offer snack voucher only",
+"Ignore status"
+],
+"correct": 1,
+"explanation": "Downgrade triggers compensation as per commercial and loyalty policy."
+},
+{
+"question": "During IROP cancellation, passenger requests hotel but lives locally. What is correct care policy?",
+"options": [
+"Provide hotel regardless",
+"Provide care as per eligibility; local residents may not qualify for accommodation",
+"Refuse all assistance",
+"Provide flight refund only"
+],
+"correct": 1,
+"explanation": "Care policy distinguishes stranded transit passengers from local residents."
+},
+{
+"question": "Boarding scanner repeatedly rejects valid boarding pass after seat change via F3. What likely cause?",
+"options": [
+"Paper issue",
+"Boarding list not refreshed after seat update; require manifest sync",
+"Passenger fraud",
+"Gate closed"
+],
+"correct": 1,
+"explanation": "After seat reassignment, manifest sync/update is required for scanner validation."
+},
+{
+"question": "APIS transmission fails after closure. What is safest course of action?",
+"options": [
+"Depart flight",
+"Hold departure until APIS successfully transmitted",
+"Delete APIS record",
+"Board without APIS"
+],
+"correct": 1,
+"explanation": "Regulatory compliance requires confirmed APIS transmission prior to departure."
+},
+{
+"question": "A DEPU is traveling unaccompanied and gate staff unaware. What must be ensured?",
+"options": [
+"Seat anywhere",
+"Ensure escort process complete and commander informed per DEPU procedure",
+"Treat as UMNR",
+"Ignore classification"
+],
+"correct": 1,
+"explanation": "DEPU requires escort and commander notification as per security procedures."
+},
+{
+"question": "Overbooking voluntary offload is requested. What is best negotiation approach?",
+"options": [
+"Select lowest fare passenger",
+"Seek volunteers offering compensation as per policy before involuntary denial",
+"Cancel randomly",
+"Board standby first"
+],
+"correct": 1,
+"explanation": "Policy requires voluntary solicitation before involuntary denied boarding."
+},
+{
+"question": "Passenger with WCHR SSR requests exit row seat. What applies?",
+"options": [
+"Allow if passenger insists",
+"Deny exit row due to mobility restriction safety requirement",
+"Charge extra",
+"Ignore SSR"
+],
+"correct": 1,
+"explanation": "Passengers requiring assistance cannot be seated in exit rows per safety regulation."
+},
+{
+"question": "NOTOC indicates live animal in hold. Gate adds last minute AVIH without update. What must be done?",
+"options": [
+"Proceed silently",
+"Update NOTOC and obtain commander acceptance before departure",
+"Cancel AVIH",
+"Move to cabin"
+],
+"correct": 1,
+"explanation": "All special loads must be reflected in NOTOC with commander acknowledgment."
+},
+{
+"question": "BMA shows mismatch in bag count after final call. What step ensures compliance?",
+"options": [
+"Ignore minor variance",
+"Cross-check reconciliation report and confirm ramp count before pushback",
+"Close flight",
+"Adjust passenger count"
+],
+"correct": 1,
+"explanation": "BMA reconciliation must match physical bag count before departure."
+},
+{
+"question": "Passenger denied entry due to expired visa but claims transit exemption. What is correct step?",
+"options": [
+"Board based on claim",
+"Verify TIMATIC transit rules and document exemption eligibility before decision",
+"Ignore and board",
+"Cancel ticket"
+],
+"correct": 1,
+"explanation": "TIMATIC verification is mandatory before accepting documentation claims."
+},
+{
+"question": "During SHFT re-accommodation, fare difference auto-generates ADM risk. What should agent ensure?",
+"options": [
+"Ignore fare rules",
+"Use authorized involuntary reissue code under IROP to avoid ADM",
+"Charge passenger",
+"Cancel booking"
+],
+"correct": 1,
+"explanation": "IROP reissue must use involuntary codes to prevent ADM liability."
+},
+{
+"question": "A passenger checks in firearm but NOTOC not reflecting category. What must be verified?",
+"options": [
+"Nothing",
+"Correct dangerous goods classification and ensure NOTOC reflects details",
+"Seat passenger front row",
+"Reject weapon"
+],
+"correct": 1,
+"explanation": "Firearms must be declared and documented under correct DG category in NOTOC."
+},
+{
+"question": "Gate staff boards standby before confirming revenue no-show. What risk arises?",
+"options": [
+"None",
+"Potential denied boarding of confirmed passenger arriving within closure time",
+"Overfuel",
+"Crew delay"
+],
+"correct": 1,
+"explanation": "Standby boarding before finalizing confirmed no-show may cause customer service and compensation issues."
+},
+{
+"question": "APIS data mismatch between passport and PNR. What is correct correction method?",
+"options": [
+"Ignore spelling error",
+"Update APIS fields exactly as passport and retransmit",
+"Board anyway",
+"Cancel booking"
+],
+"correct": 1,
+"explanation": "APIS must exactly match passport details to avoid regulatory fines."
+},
+{
+"question": "During diversion, limited catering onboard. What commercial obligation applies?",
+"options": [
+"None",
+"Provide care proportional to delay duration under policy",
+"Refund full ticket",
+"Cancel flight"
+],
+"correct": 1,
+"explanation": "Care obligations depend on delay duration and passenger entitlements."
+},
+{
+"question": "Passenger attempts travel with damaged passport cover but valid data page. What should agent do?",
+"options": [
+"Automatically deny",
+"Assess document integrity and verify machine-readable zone validity before decision",
+"Ignore damage",
+"Confiscate passport"
+],
+"correct": 1,
+"explanation": "Validity depends on data page integrity and MRZ readability."
+},
+{
+"question": "Through-check baggage requested across non-interline partner. What applies?",
+"options": [
+"Always allowed",
+"Only permitted if interline agreement exists in system",
+"Tag manually",
+"Ignore agreement"
+],
+"correct": 1,
+"explanation": "Through check-in requires valid interline agreement."
+},
+{
+"question": "BRS indicates last bag scanned after doors closed. What is correct protocol?",
+"options": [
+"Ignore timing",
+"Confirm loading position and update load sheet if required before pushback",
+"Remove bag randomly",
+"Delay indefinitely"
+],
+"correct": 1,
+"explanation": "Late baggage requires reconciliation and possible load sheet update."
+},
+{
+"question": "Passenger refuses security secondary check but demands boarding. What policy applies?",
+"options": [
+"Allow boarding",
+"Refuse carriage due to non-compliance with security requirements",
+"Negotiate",
+"Board after apology"
+],
+"correct": 1,
+"explanation": "Refusal of required security procedures justifies refusal of carriage."
+},
+{
+"question": "Gate system freezes during final boarding. What immediate step ensures accuracy?",
+"options": [
+"Board manually without record",
+"Switch to contingency boarding list and reconcile post-departure",
+"Cancel flight",
+"Delay 2 hours"
+],
+"correct": 1,
+"explanation": "Contingency boarding procedures must maintain reconciliation accuracy."
+},
+{
+"question": "Overweight bag accepted without charge due to IROP stress. What risk exists?",
+"options": [
+"None",
+"Revenue leakage and audit non-compliance",
+"Passenger satisfaction only",
+"Security risk"
+],
+"correct": 1,
+"explanation": "Policy deviation may trigger audit findings and revenue loss."
+},
+{
+"question": "INAD passenger requires overnight stay. Who bears responsibility?",
+"options": [
+"Passenger",
+"Carrier as per inadmissible handling policy",
+"Airport authority",
+"Immigration"
+],
+"correct": 1,
+"explanation": "Carrier is responsible for care and return of INAD passenger."
+},
+{
+"question": "Boarding completed but one EXST seat shows unoccupied in manifest. What must agent confirm?",
+"options": [
+"Ignore",
+"Ensure EXST seat correctly linked to passenger in system to avoid no-show miscount",
+"Release seat",
+"Allocate to standby"
+],
+"correct": 1,
+"explanation": "EXST seats remain tied to passenger and should not be treated as no-show."
+},
+{
+"question": "Passenger with forged visa suspected at gate. What action is correct?",
+"options": [
+"Board to avoid delay",
+"Escalate to security and suspend boarding pending verification",
+"Confiscate visa personally",
+"Ignore suspicion"
+],
+"correct": 1,
+"explanation": "Suspected fraudulent documents must be escalated to authorities."
+},
+{
+"question": "During final reconciliation, passenger boarded but bag not found in BRS. What must occur?",
+"options": [
+"Depart anyway",
+"Investigate and confirm bag status before departure",
+"Mark bag delivered",
+"Cancel boarding"
+],
+"correct": 1,
+"explanation": "Positive bag match required before departure."
+},
+{
+"question": "BlueChip member requests priority standby after flight closure. What applies?",
+"options": [
+"Allow immediate boarding",
+"Standby only if operationally feasible and after safety reconciliation",
+"Guarantee seat",
+"Deny always"
+],
+"correct": 1,
+"explanation": "Priority applies but cannot override safety or reconciliation procedures."
+},
+{
+"question": "Crew jump seat allocated but passenger load increases due to last minute transfer. What decision?",
+"options": [
+"Keep jump seat occupant",
+"Reassess weight and balance and confirm with commander before retaining allocation",
+"Remove revenue passenger",
+"Ignore"
+],
+"correct": 1,
+"explanation": "Jump seat occupancy must align with commander approval and W&B constraints."
+},
+{
+"question": "Passenger changes name spelling at counter after check-in. What is correct action?",
+"options": [
+"Ignore minor difference",
+"Correct PNR and APIS data before departure to match passport",
+"Board anyway",
+"Cancel booking"
+],
+"correct": 1,
+"explanation": "Name must match passport exactly for regulatory compliance."
+},
+{
+"question": "Gate staff manually boards passenger not in manifest. What compliance breach occurs?",
+"options": [
+"None",
+"Security and reconciliation breach affecting load and BRS integrity",
+"Revenue only",
+"Customer service issue"
+],
+"correct": 1,
+"explanation": "All boarded passengers must reflect in manifest for security and W&B accuracy."
+},
+{
+"question": "During weather IROP, passenger demands EU261 compensation immediately. What is correct approach?",
+"options": [
+"Pay cash immediately",
+"Provide information and process as per regulatory timeline after assessment",
+"Refuse discussion",
+"Offer meal only"
+],
+"correct": 1,
+"explanation": "Compensation eligibility determined post operational assessment under regulation."
+},
+{
+"question": "Limited release tag missing on fragile bag already loaded. What is correct corrective step?",
+"options": [
+"Ignore",
+"Update system remark and annotate baggage record to reflect limited liability",
+"Unload bag",
+"Refund ticket"
+],
+"correct": 1,
+"explanation": "System documentation must reflect limited release acceptance."
+},
+{
+"question": "Final call made but APIS shows one passenger not transmitted. What action?",
+"options": [
+"Ignore",
+"Transmit APIS immediately before closing flight",
+"Remove passenger",
+"Delay 24 hours"
+],
+"correct": 1,
+"explanation": "All passengers must have APIS transmitted prior to departure."
+}
+
+    ];
+    let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let soundOn = true;
+let soundEnabled = true;
+const userAnswers = [];
+const allResults = [];
+
+const quizContainer = document.getElementById("quiz-container");
+const scoreContainer = document.getElementById("score-container");
+const progressBar = document.getElementById("progress-bar");
+const questionCounter = document.getElementById("question-counter");
+const alertBox = document.getElementById("alert");
+const startButton = document.getElementById("start-button");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
+
+function startQuiz() {
+currentQuestion = 0;
+score = 0;
+userAnswers.length = 0;
+quizStartTime = new Date(); 
+startButton.style.display = "none";
+scoreContainer.innerHTML = "";
+showQuestion();
+}
+
+function showQuestion() {
+clearInterval(timer);
+timeLeft = 60;
+updateTimer();
+alertBox.style.display = "none";
+const questionData = quizData[currentQuestion];
+quizContainer.innerHTML = `
+<div class="card">
+<div class="timer" id="timer">Time left: ${timeLeft}s</div>
+<h2>${questionData.question}</h2>
+<div class="options">
+${questionData.options.map((opt, i) =>
+`<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+).join("")}
+</div>
+<div id="warning-message"></div>
+<button class="btn" onclick="submitAnswer()">Submit</button>
+</div>
+`;
+questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
+timer = setInterval(() => {
+timeLeft--;
+updateTimer();
+if (timeLeft <= 5) alertBox.style.display = "block";
+if (timeLeft === 0) submitAnswer(true);
+}, 1000);
+}
+
+function updateTimer() {
+const timerEl = document.getElementById("timer");
+if (!timerEl) return;
+timerEl.textContent = `Time left: ${timeLeft}s`;
+timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+}
+
+function submitAnswer(auto = false) {
+const selected = document.querySelector('input[name="answer"]:checked');
+const questionData = quizData[currentQuestion];
+
+if (!selected && !auto) {
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+return;
+}
+
+clearInterval(timer);
+alertBox.style.display = "none";
+
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "";
+
+let isCorrect = false;
+
+if (selected) {
+const answer = parseInt(selected.value);
+userAnswers[currentQuestion] = answer;
+if (answer === questionData.correct) {
+score++;
+isCorrect = true;
+}
+} else {
+userAnswers[currentQuestion] = null;
+}
+
+const optionsLabels = document.querySelectorAll(".options label");
+optionsLabels.forEach((label, i) => {
+label.classList.add("disabled");
+const input = label.querySelector('input');
+if (input) input.disabled = true;
+
+if (i === questionData.correct) label.classList.add("correct");
+else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
+});
+
+const submitBtn = quizContainer.querySelector("button.btn");
+if (submitBtn) submitBtn.disabled = true;
+
+quizContainer.innerHTML += `
+<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+<button class="btn" onclick="nextQuestion()">Next</button>
+`;
+
+setTimeout(() => {
+showResult(isCorrect);
+}, 150);
+
+progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+allResults[currentQuestion] = {
+question: questionData.question.trim(),
+selected: selected ? parseInt(selected.value) : null,
+correct: questionData.correct,
+options: questionData.options.map(o => o.trim()),
+explanation: questionData.explanation.trim(),
+};
+}
+
+function showResult(correct) {
+const sound = correct ? correctSound : wrongSound;
+sound.currentTime = 0;
+if (soundEnabled) sound.play();
+
+if (correct) {
+confetti();
+setTimeout(() => {
+sound.pause();
+sound.currentTime = 0;
+}, 2400);
+}
+}
+
+function nextQuestion() {
+currentQuestion++;
+if (currentQuestion >= quizData.length) {
+showScore();
+} else {
+showQuestion();
+}
+}
+
+function showScore() {
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - quizStartTime) / 1000); 
+const percentage = Math.round((score / quizData.length) * 100);
+const passed = percentage >= 90;
+
+quizContainer.innerHTML = "";
+questionCounter.textContent = `Quiz Completed!`;
+progressBar.style.width = "100%";
+
+let resultMessage = `
+<div class="highlight-latest-result">
+You scored ${score} out of ${quizData.length} (${percentage}%)
+<br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+${passed ? "✅ Passed!" : "❌ Not Passed"}
+</span>
+</div>
+`;
+
+let buttonsHTML = `
+<div class="button-group">
+<button class="btn" onclick="startQuiz()">Restart Quiz</button>
+<button class="btn" onclick="toggleReview()">Review Answers</button>
+<button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+<button class="btn" onclick="goHome()">Homepage</button>
+</div>
+<div id="review-section"></div>
+`;
+
+scoreContainer.innerHTML = resultMessage + buttonsHTML;
+}
+
+function toggleReview() {
+const reviewSection = document.getElementById("review-section");
+if (reviewSection.innerHTML.trim() !== "") {
+reviewSection.innerHTML = "";
+} else {
+let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+allResults.forEach((result, i) => {
+const userAnswerIndex = result.selected;
+const correctIndex = result.correct;
+resultsHTML += `
+<div class="card" style="margin-bottom:15px; text-align:left;">
+<strong>Q${i + 1}: ${result.question}</strong><br>
+Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+Correct answer: ${result.options[correctIndex]}<br>
+<div class="explanation">${result.explanation}</div>
+</div>
+`;
+});
+reviewSection.innerHTML = resultsHTML;
+}
+}
+
+function downloadResultsPDF(score, total, timeTaken) {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const now = new Date();
+const formattedDate = now.toLocaleString();
+const percentage = Math.round((score / total) * 100) + "%";
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.text("ACE Practice Set Results", 20, 20);
+
+const headers = ["Date", "Score", "Time Taken"];
+const data = [[ formattedDate, `${score} / ${total} (${percentage})`, `${timeTaken} seconds` ]];
+
+const startX = 20;
+const startY = 30;
+const colWidths = [60, 60, 60];
+const rowHeight = 10;
+
+headers.forEach((header, i) => {
+doc.setFillColor(240, 240, 240);
+doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+doc.setTextColor(0);
+doc.setFontSize(12);
+doc.text(header.trim(), startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+});
+
+data[0].forEach((text, i) => {
+const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+const y = startY + rowHeight;
+doc.rect(x, y, colWidths[i], rowHeight); 
+doc.text(text.trim(), x + 2, y + 7);
+});
+
+doc.save("quiz_results.pdf");
+}
+
+function goHome() {
+window.location.href = "index.html";
+}
+function toggleSound() {
+soundOn = !soundOn;
+soundEnabled = soundOn;
+const icon = document.getElementById("sound-icon");
+const text = document.getElementById("sound-text");
+if (soundOn) {
+icon.textContent = "🔊";
+text.textContent = "Sound ON";
+} else {
+icon.textContent = "🔇";
+text.textContent = "Sound OFF";
+}
+}
+
+startButton.addEventListener("click", startQuiz);
+</script>
+</body>
+</html>

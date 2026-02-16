@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+<meta charset="UTF-8" />
+<title>SITUATIONAL VIVA | Quiz 1</title>
+<style>
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: linear-gradient(120deg, #e3f6f5 0%, #ffe8d6 100%);
+color: #23395d;
+min-height: 100vh;
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 96%;
+max-width: 500px;
+margin: 40px auto 0 auto;
+background: #fff;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(34,57,93,0.15);
+padding: 32px 24px;
+position: relative;
+}
+
+h1 {
+font-size: 2.2em;
+color: #207bfa;
+font-weight: 700;
+letter-spacing: 1px;
+margin-bottom: 10px;
+}
+
+#progress-container {
+width: 100%;
+background: #e9ecef;
+height: 12px;
+border-radius: 6px;
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+#progress-bar {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+transition: width 0.4s ease;
+}
+
+#question-counter {
+font-size: 1.1em;
+font-weight: 600;
+color: #525252;
+margin: 10px 0 18px 0;
+text-align: center;
+}
+
+.card {
+background: #f9f9fb;
+padding: 28px 24px;
+border-radius: 16px;
+box-shadow: 0 2px 14px rgba(34,57,93,0.07);
+text-align: left;
+}
+
+.options label {
+display: block;
+background: #f5fafd;
+font-size: 1em;
+margin: 10px 0;
+cursor: pointer;
+padding: 11px 16px;
+border-radius: 8px;
+border: 2px solid #e3f6f5;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.options input {
+margin-right: 11px;
+}
+
+.btn {
+display: inline-block;
+margin: 18px 10px 0 0;
+padding: 12px 30px;
+font-size: 1.15em;
+font-weight: 600;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+background: linear-gradient(90deg, #207bfa 0%, #43cea2 100%);
+color: #fff;
+box-shadow: 0 3px 10px rgba(34,57,93,0.08);
+transition: background 0.25s;
+}
+
+.btn:hover { background: linear-gradient(90deg, #43cea2 0%, #207bfa 100%); }
+
+.correct {
+background: #e6ffed !important;
+border-color: #43cea2 !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.wrong {
+background: #ffebef !important;
+border-color: #fa205c !important;
+opacity: 0.6;
+pointer-events: none;
+}
+
+.disabled-option {
+opacity: 0.6;
+pointer-events: none;
+}
+
+.timer {
+font-weight: bold;
+margin-bottom: 15px;
+font-size: 1.08em;
+color: #207bfa;
+}
+
+.timer.red { color: #fa205c; }
+.timer.green { color: #43cea2; }
+
+.explanation {
+margin-top: 18px;
+padding: 12px 16px;
+background: #f6f3e9;
+border-left: 5px solid #43cea2;
+border-radius: 0 8px 8px 0;
+font-size: 0.99em;
+color: #525252;
+}
+
+#alert {
+display: none;
+font-size: 1.07em;
+color: #fa205c;
+letter-spacing: 0.5px;
+margin: 6px 0;
+font-weight: 700;
+text-align: center;
+}
+
+#sound-toggle {
+margin: 18px 0;
+cursor: pointer;
+font-size: 1em;
+color: #43cea2;
+font-weight: 600;
+}
+
+#score-container {
+margin-top: 22px;
+text-align: center;
+}
+
+.highlight-latest-result {
+font-size: 1.33em;
+font-weight: 800;
+letter-spacing: 1px;
+margin-bottom: 18px;
+color: #207bfa;
+}
+
+#time-up-message {
+font-size: 1.1em;
+color: #fa205c;
+font-weight: bold;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>SITUATIONAL VIVA | Quiz 1</h1>
+<div id="sound-toggle" onclick="toggleSound()">
+<span id="sound-icon">🔊</span> <span id="sound-text">Sound ON</span>
+</div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="question-counter">Questions: 50</div>
+<div id="alert">⏰ Hurry! Time is almost up!</div>
+<div id="quiz-container"></div>
+<div id="score-container"></div>
+<button id="start-button" class="btn">Start Quiz</button>
+</div>
+ <audio id="correct-sound" src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/audio/B4CWlP_CIkc1kju2x/audioblocks-feedback-correct-07_HiQUhCpDv_WM.mp3" preload="auto"></audio>
+<audio id="wrong-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const quizData = [
+
+
+  {
+"question": "A customer reports at D-50 minutes as a Gate No Show and requests confirmed accommodation on the next flight departing in 2 hours. They do not want to wait until D-75 minutes of the next flight. What is the correct application of NMOVE policy?",
+"options": [
+"Charge only NMOVE fee and reconfirm immediately",
+"Charge NMOVE fee + change fee + fare difference and reconfirm",
+"Allow free transfer as customer reported at airport",
+"Forfeit full fare as gate closed"
+],
+"correct": 1,
+"explanation": "Under NMOVE Option 2, if the customer wants immediate confirmation and does not wish to wait until D-75 minutes, NMOVE fee, change fee and fare difference must be charged."
+},
+{
+"question": "During check-in, a passenger has 3 bags totaling 15 kg on a domestic sector. What is the correct baggage fee action in SkySpeed?",
+"options": [
+"Charge excess baggage for 0 kg only",
+"Charge ABHF once via F6",
+"Charge ABHF twice via F6",
+"No charges since total weight is within 15 kg"
+],
+"correct": 2,
+"explanation": "Even if total weight is within FBA, ABHF applies per additional piece. For 3 pieces, ABHF must be charged twice using F6."
+},
+{
+"question": "A CPTR + CPML passenger requests XL seat at airport. What is the correct entitlement?",
+"options": [
+"Free XL seat without conditions",
+"50% discount on XL seat",
+"No entitlement for XL seat",
+"Full charge applicable without discount"
+],
+"correct": 1,
+"explanation": "Corporate travelers (CPTR) are entitled to 50% discount on XL row seating as per entitlement grid."
+},
+{
+"question": "A customer wants to prepone a domestic flight from 1600 hrs to 1300 hrs and reports at 1205 hrs. Seats available. What applies?",
+"options": [
+"NMOVE applicable",
+"SHFT applicable with INR 1800",
+"Free change within 4 hours",
+"Not allowed as more than 2 hours difference"
+],
+"correct": 1,
+"explanation": "SHFT applies for domestic preponement within 4 hours. 1600 to 1300 is within 4-hour window. Regular SHFT fee INR 1800 applies."
+},
+{
+"question": "A Digi Yatra passenger shows QR code with PNR and name. What is correct verification process?",
+"options": [
+"Ask for government ID compulsorily",
+"Allow boarding without any check",
+"Do not ask for ID as verification is done through Digi Yatra",
+"Re-verify through FOID entry"
+],
+"correct": 2,
+"explanation": "When Digi Yatra QR code with PNR and name is displayed, ID verification is not required as it is digitally validated."
+},
+{
+"question": "A 6E Double Seat passenger checks in at counter. Both names auto-selected in GoNow. What must agent do?",
+"options": [
+"Process both passengers normally",
+"Cancel second passenger",
+"Deselect second passenger with EXTRASEAT as middle name",
+"Divide PNR"
+],
+"correct": 2,
+"explanation": "Only first customer must be processed. Second passenger with EXTRASEAT must remain no-show to protect blocked seat."
+},
+{
+"question": "On ATR 72-600, a passenger with guide dog reports. What is correct action?",
+"options": [
+"Allow if vaccinated",
+"Allow in first row",
+"Deny as guide dogs not permitted on ATR",
+"Charge PETC fees"
+],
+"correct": 2,
+"explanation": "Guide dogs including PETC are not allowed on ATR 72-600 aircraft due to safety restrictions."
+},
+{
+"question": "A Super 6E domestic passenger checks in with 20 kg in one bag. What is correct allowance?",
+"options": [
+"15 kg only",
+"20 kg allowed due to 5 kg extra entitlement",
+"Charge excess 5 kg",
+"Charge ABHF"
+],
+"correct": 1,
+"explanation": "Super 6E domestic includes additional 5 kg baggage, making effective allowance 20 kg."
+},
+{
+"question": "During overbooking, a volunteer accepts compensation and travel next day. This is categorized as?",
+"options": [
+"Involuntary denied boarding",
+"Self-offload",
+"Voluntary denied boarding",
+"Refusal of carriage"
+],
+"correct": 2,
+"explanation": "When customer voluntarily agrees to offload in overbooking scenario, it is Voluntary denied boarding."
+},
+{
+"question": "In SkySpeed, NMOVE fee must be added using which function key?",
+"options": [
+"F3",
+"F6",
+"F9",
+"F12"
+],
+"correct": 2,
+"explanation": "NMOVE charges must be manually added in SkySpeed using F9 – Fees."
+},
+{
+"question": "A passenger with EXST is seated in emergency exit but does not meet EEA criteria. What must be done?",
+"options": [
+"Allow as extra seat purchased",
+"Reassign seats after explanation",
+"Cancel booking",
+"Charge difference only"
+],
+"correct": 1,
+"explanation": "Emergency exit eligibility must be verified. If not eligible, seats must be reassigned after explanation."
+},
+{
+"question": "Passenger carrying 2 bags totaling 20 kg on domestic. Correct billing?",
+"options": [
+"Charge 5 kg excess only",
+"Charge ABHF only",
+"Charge excess 5 kg + ABHF once",
+"No charge"
+],
+"correct": 2,
+"explanation": "For 2 pieces, ABHF once applies plus excess 5 kg since total exceeds 15 kg."
+},
+{
+"question": "A deportee escorted passenger must be marked under which SSR?",
+"options": [
+"DEPU",
+"DEPA",
+"INAD",
+"WCHR"
+],
+"correct": 1,
+"explanation": "DEPA refers to Deportee Accompanied (Escorted). DEPU is unescorted."
+},
+{
+"question": "During IROP delay of 5 hours, which customers get priority information as per recognition program?",
+"options": [
+"Only VIP",
+"VIP, CIP, SIP, FQT01/02",
+"Only FQT02",
+"Only CPTR"
+],
+"correct": 1,
+"explanation": "VIP, CIP, SIP and frequent travelers (FQT01/02) receive priority information during IROP."
+},
+
+{
+"question": "At gate, passenger with 6E Double Seat boarding pass printed at kiosk shows only one seat printed. What action?",
+"options": [
+"Ignore second seat",
+"Reprint both seats automatically",
+"Manually write second seat number on boarding pass",
+"Cancel extra seat"
+],
+"correct": 2,
+"explanation": "Only web check-in prints both seats. If printed at kiosk/counter, second seat must be manually written."
+},
+{
+"question": "Passenger prepays SPEQ SSR for sports equipment. At airport, what must agent avoid?",
+"options": [
+"Charging excess baggage",
+"Charging BULK again",
+"Accepting equipment",
+"Tagging fragile"
+],
+"correct": 1,
+"explanation": "If SPEQ SSR attached, airport must not charge BULK charges again."
+},
+{
+"question": "A no-show customer does not opt NMOVE or SHFT. Outcome?",
+"options": [
+"Refund with cancellation fee",
+"Full fare forfeited",
+"Free rebooking next day",
+"Partial credit shell"
+],
+"correct": 1,
+"explanation": "If neither Option 1 nor Option 2 under NMOVE is chosen, entire fare is forfeited."
+},
+
+{
+"question": "A passenger is marked NPSD. What is expected service approach?",
+"options": [
+"Standard handling only",
+"Proactively deny seat change",
+"Extra mile courteous service for service recovery",
+"Charge priority fees"
+],
+"correct": 2,
+"explanation": "NPSD indicates detractor. Staff should provide courteous, extra-mile service to improve experience."
+},
+{
+"question": "In GoNow, SHFT fee must be added using which key?",
+"options": [
+"F9",
+"F6",
+"F3",
+"F2"
+],
+"correct": 1,
+"explanation": "SHFT charges must be manually entered into GoNow using F6 – Services."
+},
+{
+"question": "Passenger with LCD TV 42 inches. What applies?",
+"options": [
+"Free under FBA",
+"Charge only excess weight",
+"Levy special baggage charge over excess if applicable",
+"Refuse carriage"
+],
+"correct": 2,
+"explanation": "LCD/LED TV 40 inches and above attracts special baggage charge over and above excess baggage."
+},
+{
+"question": "In 6E Double Seat manifest, status of second passenger shows?",
+"options": [
+"FF",
+"Boarded",
+"Blank with seat assignment",
+"Checked-in"
+],
+"correct": 2,
+"explanation": "Second passenger (DBST SSR) remains blank (no show) but retains seat assignment."
+},
+{
+"question": "A customer connecting DOM-INTL under same PNR. Which FBA applies on domestic leg?",
+"options": [
+"Domestic 15 kg",
+"International sector FBA",
+"Lowest allowance",
+"Manual override required"
+],
+"correct": 1,
+"explanation": "If booked under same PNR DOM-INTL, international FBA applies even on domestic sector."
+},
+{
+"question": "Unruly passenger refusing crew instruction at gate. Applicable category?",
+"options": [
+"Overbooking",
+"Refusal of carriage",
+"INAD",
+"DEPU"
+],
+"correct": 1,
+"explanation": "Disruptive or unruly behavior falls under refusal of carriage."
+},
+{
+"question": "ATR 72-600 maximum WCHC/R allowed per flight?",
+"options": [
+"1",
+"2",
+"4",
+"Unlimited"
+],
+"correct": 1,
+"explanation": "ATR allows maximum 2 WCHC/R per flight (rows 18 & 19)."
+},
+{
+"question": "If customer wants to postpone domestic flight by 3 hours at airport, which applies?",
+"options": [
+"SHFT",
+"NMOVE",
+"Free change",
+"Not allowed"
+],
+"correct": 1,
+"explanation": "SHFT applies only for preponement. Postponement requires NMOVE process."
+},
+{
+"question": "Blue Ribbon refund rule if first leg of return is cancelled?",
+"options": [
+"SSR continues automatically",
+"SSR cancelled & refunded, must repurchase",
+"Transferred to return sector",
+"Converted to credit shell"
+],
+"correct": 1,
+"explanation": "If first leg cancelled, SSR cancelled and refunded; customer must repurchase for return."
+},
+{
+"question": "Gate No Show baggage reconciliation requires coordination with?",
+"options": [
+"FIDS",
+"BRS/BMA",
+"APIS",
+"TIMATIC"
+],
+"correct": 1,
+"explanation": "Gate No Show requires baggage offload coordination via BRS and BMA."
+},
+{
+"question": "Passenger with WEAP SSR on ATR. What action?",
+"options": [
+"Allow with fee",
+"Deny as firearms not allowed on ATR",
+"Charge double",
+"Send as cabin baggage"
+],
+"correct": 1,
+"explanation": "Firearms and weapons are not allowed on ATR 72-600."
+},
+{
+"question": "SHFT applicable to which flights?",
+"options": [
+"International only",
+"Domestic only",
+"Both domestic & international",
+"Codeshare only"
+],
+"correct": 1,
+"explanation": "SHFT is valid only for domestic flights."
+},
+{
+"question": "Customer with 6E Prime entitlement includes?",
+"options": [
+"Seat + Meal + Fast Forward",
+"Only seat",
+"Only baggage",
+"Seat + baggage only"
+],
+"correct": 0,
+"explanation": "6E Prime includes seat selection, meal and Fast Forward service."
+},
+{
+"question": "Passenger fails TIMATIC requirements at check-in international. What must agent do?",
+"options": [
+"Allow boarding with disclaimer",
+"Charge penalty",
+"Deny boarding due to documentation failure",
+"Refer to cabin crew"
+],
+"correct": 2,
+"explanation": "TIMATIC validation is mandatory; passenger without required documentation must be denied boarding."
+},
+{
+"question": "Emergency exit non-reclining rows in A320 include?",
+"options": [
+"11, 12, 30",
+"12 & 13",
+"1 & 2",
+"18 & 19"
+],
+"correct": 0,
+"explanation": "A320 non-reclining rows are 11th, 12th and 30th."
+},
+{
+"question": "Passenger buys SHFT but reports after check-in closure of desired flight. Action?",
+"options": [
+"Process SHFT",
+"Offer NMOVE",
+"Deny as reporting must be before closure",
+"Free transfer"
+],
+"correct": 2,
+"explanation": "SHFT requires reporting before check-in closure of desired flight."
+},
+{
+"question": "EXST seat reassignment allowed when?",
+"options": [
+"Airline convenience",
+"On customer request only",
+"During overbooking",
+"Never allowed"
+],
+"correct": 1,
+"explanation": "Seat change permitted only if requested by customer; difference rules apply."
+},
+{
+"question": "Infant fees applicable in 6E Double Seat booking?",
+"options": [
+"No",
+"Yes",
+"Only international",
+"Only domestic"
+],
+"correct": 1,
+"explanation": "Infant fee is applicable even if 6E Double Seat is booked."
+},
+{
+"question": "APIS full form?",
+"options": [
+"Airport Passenger Integration System",
+"Advance Passenger Information System",
+"Automated Passenger Interface System",
+"Airport Processing Info Service"
+],
+"correct": 1,
+"explanation": "APIS stands for Advance Passenger Information System."
+},
+{
+"question": "Customer prebooks sports equipment but flying on ATR onward. What must origin staff do?",
+"options": [
+"Ignore",
+"Accept and transfer",
+"Inform COC to customer",
+"Charge extra"
+],
+"correct": 2,
+"explanation": "Oversized baggage not allowed on ATR; origin must inform Conditions of Carriage implications."
+},
+{
+"question": "MEDA passenger requiring onboard oxygen without certificate. Action?",
+"options": [
+"Allow if stable",
+"Insist on MEDIF and approval",
+"Board last",
+"Charge fee"
+],
+"correct": 1,
+"explanation": "Medical customers requiring medical attention must submit MEDIF and obtain MCC approval."
+},
+{
+"question": "Limited Release Tag is used when?",
+"options": [
+"Normal baggage",
+"Damaged baggage accepted at passenger risk",
+"Infant baggage",
+"Crew baggage"
+],
+"correct": 1,
+"explanation": "Limited Release Tag used when baggage accepted in damaged/irregular condition at passenger risk."
+},
+{
+"question": "INAD passenger category refers to?",
+"options": [
+"Unruly",
+"Inadmissible due documentation",
+"VIP",
+"No show"
+],
+"correct": 1,
+"explanation": "INAD refers to inadmissible customer not meeting entry requirements."
+},
+{
+"question": "During IROP cancellation, care policy applies based on?",
+"options": [
+"Aircraft type",
+"Customer fare only",
+"Delay duration and situation",
+"Seat number"
+],
+"correct": 2,
+"explanation": "Care policy in IROP is based on delay duration and operational situation."
+},
+{
+"question": "Passenger attempts sector change under NMOVE Option 1. Allowed?",
+"options": [
+"Yes",
+"Only domestic",
+"Not permitted",
+"With fare difference"
+],
+"correct": 2,
+"explanation": "Under Option 1 (wait till D-75), date & sector change not permitted."
+},
+{
+"question": "BRS ensures?",
+"options": [
+"Customer check-in",
+"Baggage reconciliation with boarded passengers",
+"Seat allocation",
+"APIS upload"
+],
+"correct": 1,
+"explanation": "BRS ensures baggage is reconciled with boarded passengers to prevent unaccompanied baggage."
+},
+{
+"question": "WCHC seating allowed in A320?",
+"options": [
+"Any row except emergency exit",
+"Emergency exit only",
+"Row 1 only",
+"Not allowed"
+],
+"correct": 0,
+"explanation": "WCHC/R allowed in any row except emergency exit area."
+},
+{
+"question": "Fare Lock fee refundable?",
+"options": [
+"Yes",
+"Adjustable",
+"Non-refundable and not adjustable",
+"Refundable if cancelled"
+],
+"correct": 2,
+"explanation": "Fare Lock fee is non-refundable and not adjustable against ticket fare."
+},
+{
+"question": "Passenger with 2 bags total 15 kg. What must staff remember?",
+"options": [
+"No charge",
+"System auto charges ABHF",
+"Manually add ABHF in F6",
+"Charge excess"
+],
+"correct": 2,
+"explanation": "System will not auto collect handling fee; staff must manually add ABHF via F6."
+},
+{
+"question": "Gate intercept handbag exceeding cabin allowance. What is priority?",
+"options": [
+"Allow onboard",
+"Charge WEAP",
+"Tag as Gate Bag and reconcile",
+"Cancel booking"
+],
+"correct": 2,
+"explanation": "Excess cabin baggage intercepted at gate must be tagged appropriately (Gate Bag Tag) and reconciled."
+},
+{
+"question": "Maximum weight allowed for item on extra seat?",
+"options": [
+"32 kg",
+"50 kg",
+"75 kg",
+"Unlimited"
+],
+"correct": 2,
+"explanation": "Item secured on extra seat must not exceed 75 kg."
+},
+{
+"question": "Passenger self-offloads due personal reason. Charge applicable?",
+"options": [
+"None",
+"Self-offload fee",
+"Only cancellation fee",
+"NMOVE fee"
+],
+"correct": 1,
+"explanation": "Self-Offload attracts applicable self-offload charge as per policy."
+},
+{
+"question": "CPTR + 4 letter meal code indicates?",
+"options": [
+"No meal",
+"Specific pre-booked snack entitlement",
+"Only beverage",
+"Lite fare"
+],
+"correct": 1,
+"explanation": "CPTR with 4-letter meal code means corporate traveler pre-booked specific snack with beverage."
+}
+    ];
+    let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let soundOn = true;
+let soundEnabled = true;
+const userAnswers = [];
+const allResults = [];
+
+const quizContainer = document.getElementById("quiz-container");
+const scoreContainer = document.getElementById("score-container");
+const progressBar = document.getElementById("progress-bar");
+const questionCounter = document.getElementById("question-counter");
+const alertBox = document.getElementById("alert");
+const startButton = document.getElementById("start-button");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
+
+function startQuiz() {
+currentQuestion = 0;
+score = 0;
+userAnswers.length = 0;
+quizStartTime = new Date(); 
+startButton.style.display = "none";
+scoreContainer.innerHTML = "";
+showQuestion();
+}
+
+function showQuestion() {
+clearInterval(timer);
+timeLeft = 60;
+updateTimer();
+alertBox.style.display = "none";
+const questionData = quizData[currentQuestion];
+quizContainer.innerHTML = `
+<div class="card">
+<div class="timer" id="timer">Time left: ${timeLeft}s</div>
+<h2>${questionData.question}</h2>
+<div class="options">
+${questionData.options.map((opt, i) =>
+`<label class=""><input type="radio" name="answer" value="${i}"> ${opt}</label>`
+).join("")}
+</div>
+<div id="warning-message"></div>
+<button class="btn" onclick="submitAnswer()">Submit</button>
+</div>
+`;
+questionCounter.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+progressBar.style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+
+timer = setInterval(() => {
+timeLeft--;
+updateTimer();
+if (timeLeft <= 5) alertBox.style.display = "block";
+if (timeLeft === 0) submitAnswer(true);
+}, 1000);
+}
+
+function updateTimer() {
+const timerEl = document.getElementById("timer");
+if (!timerEl) return;
+timerEl.textContent = `Time left: ${timeLeft}s`;
+timerEl.className = "timer " + (timeLeft <= 5 ? "red" : "green");
+}
+
+function submitAnswer(auto = false) {
+const selected = document.querySelector('input[name="answer"]:checked');
+const questionData = quizData[currentQuestion];
+
+if (!selected && !auto) {
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "⚠️ Please select an option before submitting.";
+return;
+}
+
+clearInterval(timer);
+alertBox.style.display = "none";
+
+const warning = document.getElementById("warning-message");
+if (warning) warning.textContent = "";
+
+let isCorrect = false;
+
+if (selected) {
+const answer = parseInt(selected.value);
+userAnswers[currentQuestion] = answer;
+if (answer === questionData.correct) {
+score++;
+isCorrect = true;
+}
+} else {
+userAnswers[currentQuestion] = null;
+}
+
+const optionsLabels = document.querySelectorAll(".options label");
+optionsLabels.forEach((label, i) => {
+label.classList.add("disabled");
+const input = label.querySelector('input');
+if (input) input.disabled = true;
+
+if (i === questionData.correct) label.classList.add("correct");
+else if (selected && i === parseInt(selected.value)) label.classList.add("wrong");
+});
+
+const submitBtn = quizContainer.querySelector("button.btn");
+if (submitBtn) submitBtn.disabled = true;
+
+quizContainer.innerHTML += `
+<div class="explanation"><strong>Explanation:</strong> ${questionData.explanation}</div>
+<button class="btn" onclick="nextQuestion()">Next</button>
+`;
+
+setTimeout(() => {
+showResult(isCorrect);
+}, 150);
+
+progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+
+allResults[currentQuestion] = {
+question: questionData.question.trim(),
+selected: selected ? parseInt(selected.value) : null,
+correct: questionData.correct,
+options: questionData.options.map(o => o.trim()),
+explanation: questionData.explanation.trim(),
+};
+}
+
+function showResult(correct) {
+const sound = correct ? correctSound : wrongSound;
+sound.currentTime = 0;
+if (soundEnabled) sound.play();
+
+if (correct) {
+confetti();
+setTimeout(() => {
+sound.pause();
+sound.currentTime = 0;
+}, 2400);
+}
+}
+
+function nextQuestion() {
+currentQuestion++;
+if (currentQuestion >= quizData.length) {
+showScore();
+} else {
+showQuestion();
+}
+}
+
+function showScore() {
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - quizStartTime) / 1000); 
+const percentage = Math.round((score / quizData.length) * 100);
+const passed = percentage >= 90;
+
+quizContainer.innerHTML = "";
+questionCounter.textContent = `Quiz Completed!`;
+progressBar.style.width = "100%";
+
+let resultMessage = `
+<div class="highlight-latest-result">
+You scored ${score} out of ${quizData.length} (${percentage}%)
+<br><span style="color:${passed ? '#43cea2' : '#fa205c'}; font-weight:bold;">
+${passed ? "✅ Passed!" : "❌ Not Passed"}
+</span>
+</div>
+`;
+
+let buttonsHTML = `
+<div class="button-group">
+<button class="btn" onclick="startQuiz()">Restart Quiz</button>
+<button class="btn" onclick="toggleReview()">Review Answers</button>
+<button class="btn" onclick="downloadResultsPDF(${score}, ${quizData.length}, ${timeTaken})">Share Results</button>
+<button class="btn" onclick="goHome()">Homepage</button>
+</div>
+<div id="review-section"></div>
+`;
+
+scoreContainer.innerHTML = resultMessage + buttonsHTML;
+}
+
+function toggleReview() {
+const reviewSection = document.getElementById("review-section");
+if (reviewSection.innerHTML.trim() !== "") {
+reviewSection.innerHTML = "";
+} else {
+let resultsHTML = `<h3 style="text-align:center;">Review Your Answers:</h3>`;
+allResults.forEach((result, i) => {
+const userAnswerIndex = result.selected;
+const correctIndex = result.correct;
+resultsHTML += `
+<div class="card" style="margin-bottom:15px; text-align:left;">
+<strong>Q${i + 1}: ${result.question}</strong><br>
+Your answer: ${userAnswerIndex === null ? "No answer" : result.options[userAnswerIndex]} ${userAnswerIndex === correctIndex ? "✅" : "❌"}<br>
+Correct answer: ${result.options[correctIndex]}<br>
+<div class="explanation">${result.explanation}</div>
+</div>
+`;
+});
+reviewSection.innerHTML = resultsHTML;
+}
+}
+
+function downloadResultsPDF(score, total, timeTaken) {
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+const now = new Date();
+const formattedDate = now.toLocaleString();
+const percentage = Math.round((score / total) * 100) + "%";
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.text("ACE Practice Set Results", 20, 20);
+
+const headers = ["Date", "Score", "Time Taken"];
+const data = [[ formattedDate, `${score} / ${total} (${percentage})`, `${timeTaken} seconds` ]];
+
+const startX = 20;
+const startY = 30;
+const colWidths = [60, 60, 60];
+const rowHeight = 10;
+
+headers.forEach((header, i) => {
+doc.setFillColor(240, 240, 240);
+doc.rect(startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, colWidths[i], rowHeight, 'FD');
+doc.setTextColor(0);
+doc.setFontSize(12);
+doc.text(header.trim(), startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0) + 2, startY + 7);
+});
+
+data[0].forEach((text, i) => {
+const x = startX + colWidths.slice(0, i).reduce((a, b) => a + b, 0);
+const y = startY + rowHeight;
+doc.rect(x, y, colWidths[i], rowHeight); 
+doc.text(text.trim(), x + 2, y + 7);
+});
+
+doc.save("quiz_results.pdf");
+}
+
+function goHome() {
+window.location.href = "index.html";
+}
+function toggleSound() {
+soundOn = !soundOn;
+soundEnabled = soundOn;
+const icon = document.getElementById("sound-icon");
+const text = document.getElementById("sound-text");
+if (soundOn) {
+icon.textContent = "🔊";
+text.textContent = "Sound ON";
+} else {
+icon.textContent = "🔇";
+text.textContent = "Sound OFF";
+}
+}
+
+startButton.addEventListener("click", startQuiz);
+</script>
+</body>
+</html>
